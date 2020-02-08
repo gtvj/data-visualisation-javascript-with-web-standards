@@ -67,5 +67,14 @@
       "svg",
       "d3"
     ]
+  },
+  {
+    "title": "Our first React component",
+    "route": "/our-first-react-component",
+    "technologies": [
+      "svg",
+      "d3",
+      "react"
+    ]
   }
 ]

@@ -178,3 +178,5 @@ fabric.properties
 .vscode/
 
 *.iml
+
+node_modules/
