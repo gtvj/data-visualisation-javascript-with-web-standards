@@ -1,6 +1,6 @@
-# Full stack web development with Flask
+# Data visualisation with JavaScript
 
-This is the companion app I've created for this course on O'Reilly. 
+This repository is a companion to the introduction for developers along with follow-along examples.
 
 ## Development machine configuration
 
