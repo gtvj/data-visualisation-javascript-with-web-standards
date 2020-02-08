@@ -1,7 +1,8 @@
 module.exports = {
     watch: true,
     entry: {
-        our_first_react_component: "./app/static/scripts/src/our_first_react_component.js"
+        our_first_react_component: "./app/static/scripts/src/our_first_react_component.js",
+        our_first_react_component_with_d3: "./app/static/scripts/src/our_first_react_component_with_d3.js"
     },
     output: {
         path: __dirname + "/app/static/scripts/dist",
@@ -19,7 +20,7 @@ module.exports = {
             },
             {
                 test: /\.css/,
-                use: ['style-loader','css-loader']
+                use: ['style-loader', 'css-loader']
             }
         ]
     }
