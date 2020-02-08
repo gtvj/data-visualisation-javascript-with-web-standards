@@ -3,5 +3,10 @@
     "title": "SVG Basics",
     "route": "/basic-svg",
     "topic": "svg"
+  },
+  {
+    "title": "Basic SVG using origin",
+    "route": "/basic-svg-using-origin",
+    "topic": "svg"
   }
 ]

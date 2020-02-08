@@ -1,0 +1,21 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+
+<h1>Basic SVG using origin</h1>
+<p>No D3 here, again.</p>
+<p>Notice how the group element has set a new origin for the second line</p>
+<svg width="500" height="300">
+    <g>
+        <line x1="100" y1="100" x2="300" y2="100" stroke="black"></line>
+        <circle r="3" cx="300" cy="100"></circle>
+        <text x="100" y="90">Here's a line</text>
+    </g>
+    <g transform="translate(100,100)">
+        <line x1="100" y1="100" x2="300" y2="100" stroke="black"></line>
+        <circle r="3" cx="300" cy="100"></circle>
+        <text x="100" y="90">Here's another line</text>
+    </g>
+</svg>
+
+{% endblock %}
