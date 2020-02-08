@@ -13,5 +13,10 @@
     "title": "Basic SVG using zero as default for origin",
     "route": "/basic-svg-using-zero-as-default-for-attributes",
     "topic": "svg"
+  },
+  {
+    "title": "Drawing with SVG and D3",
+    "route": "/drawing-with-svg-and-d3",
+    "topic": "d3"
   }
 ]
