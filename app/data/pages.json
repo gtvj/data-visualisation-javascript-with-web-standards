@@ -59,5 +59,13 @@
       "svg",
       "d3"
     ]
+  },
+  {
+    "title": "Using rollup to shape data",
+    "route": "/using-rollup-to-shape-data",
+    "technologies": [
+      "svg",
+      "d3"
+    ]
   }
 ]
