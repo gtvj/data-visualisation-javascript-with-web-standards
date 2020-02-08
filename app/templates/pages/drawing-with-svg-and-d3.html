@@ -1,7 +1,9 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
 <h1>Drawing with SVG and D3</h1>
 <p>To work with DOM elements using D3 we need to turn them into D3 selection elements.</p>
 <p>D3 offers a fluent API allowing for calls to be chained.</p>
-<body>
 <div class="visualisation">
 
 </div>
@@ -22,6 +24,8 @@
     stick.append('text')
         .attr('y', -10)
         .text('This is a line')
+
 </script>
 </body>
 </html>
+{% endblock %}
