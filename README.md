@@ -1,4 +1,4 @@
-# Data visualisation with JavaScript
+# Data visualisation with JavaScript and Web Standards
 
 This repository is a companion to the [introduction for developers](https://docs.google.com/presentation/d/1H8UbPesAFGUxk4IuWzBh3QmIHK1oG55WdYIeGjZ7ezU/edit?usp=sharing) along with follow-along examples.
 
