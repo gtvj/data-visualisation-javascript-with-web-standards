@@ -43,5 +43,13 @@
       "svg",
       "d3"
     ]
+  },
+  {
+    "title": "Loading data with D3",
+    "route": "/loading-data-with-d3",
+    "technologies": [
+      "svg",
+      "d3"
+    ]
   }
 ]

@@ -1,0 +1,33 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<div class="visualisation">
+
+</div>
+<h1>Loading CSV data with D3</h1>
+<p>This page provides demonstrates using d3-fetch. Look at the console for output. Note a few things here:</p>
+<ul>
+    <li>d3-fetch has a dependency on d3-dsv, and this is documented in the docs at: https://github.com/d3/d3-fetch#installing (you could say this isn't exactly obvious)</li>
+    <li>d3.csv has (handily) converted our CSV data to an array of objects</li>
+    <li>d3.json has parsed the fetched JSON into an array of objects</li>
+</ul>
+<p><strong>Take note:</strong> there will be times that you need to load data from several sources, and you can use <code>promise.all()</code> in these circumstances.</p>
+
+<script>
+
+    d3.csv("/static/data/skills.csv").then(data => {
+        console.group(`Here's the CSV data`);
+        console.log(data);
+        console.groupEnd();
+    });
+
+    d3.json("/static/data/skills.json").then(data => {
+        console.group(`Here's the JSON data`);
+        console.table(data);
+        console.groupEnd();
+    });
+
+</script>
+{% endblock %}
