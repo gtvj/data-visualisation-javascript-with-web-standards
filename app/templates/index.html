@@ -6,9 +6,12 @@
     <div class="cell small-6 medium-4 large-2">
         <a href="/pages{{ page.route }}">
             <div class="card">
-                <img src="/static/images/{{ page.topic }}.png">
                 <div class="card-section">
+                    <img src="/static/images/d3.png">
                     <p>{{ page.title }}</p>
+                    {% for technology in page.technologies%}
+                    <span class="badge secondary">{{ technology }}</span>
+                    {% endfor %}
                 </div>
             </div>
         </a>

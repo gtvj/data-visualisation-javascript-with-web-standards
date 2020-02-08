@@ -2,26 +2,46 @@
   {
     "title": "SVG Basics",
     "route": "/basic-svg",
-    "topic": "svg"
+    "technologies": [
+      "svg"
+    ]
   },
   {
     "title": "Basic SVG using origin",
     "route": "/basic-svg-using-origin",
-    "topic": "svg"
+    "technologies": [
+      "svg"
+    ]
   },
   {
     "title": "Basic SVG using zero as default for origin",
     "route": "/basic-svg-using-zero-as-default-for-attributes",
-    "topic": "svg"
+    "technologies": [
+      "svg"
+    ]
   },
   {
     "title": "Drawing with SVG and D3",
     "route": "/drawing-with-svg-and-d3",
-    "topic": "d3"
+    "technologies": [
+      "svg",
+      "d3"
+    ]
   },
   {
     "title": "Drawing with SVG and D3 is still JavaScript",
     "route": "/drawing-with-svg-and-d3-is-still-javascript",
-    "topic": "d3"
+    "technologies": [
+      "svg",
+      "d3"
+    ]
+  },
+  {
+    "title": "Week 1 challeng - a solution",
+    "route": "/week-one-challenge-a-solution",
+    "technologies": [
+      "svg",
+      "d3"
+    ]
   }
 ]
