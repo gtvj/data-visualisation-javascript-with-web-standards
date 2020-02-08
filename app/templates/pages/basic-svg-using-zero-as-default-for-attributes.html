@@ -1,0 +1,22 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+
+<h1>Basic SVG using '0' as default for attributes</h1>
+<p>No D3 here, again.</p>
+<p>In SVG, '0' is the default for attributes. Because of this you can omit them and delegate some positioning to the group element.</p>
+<p>This example demonstrates using this identical shapes with different translations applied to the parent group.</p>
+<svg width="500" height="300">
+    <g transform="translate(100,200)">
+        <line x2="300" stroke="black"></line>
+        <circle r="3" cx="300"></circle>
+        <text y="-10">Here's another line</text>
+    </g>
+    <g transform="translate(100,100)">
+        <line x2="300" stroke="black"></line>
+        <circle r="3" cx="300"></circle>
+        <text y="-10">Here's a line</text>
+    </g>
+</svg>
+
+{% endblock %}

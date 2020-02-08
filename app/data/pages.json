@@ -8,5 +8,10 @@
     "title": "Basic SVG using origin",
     "route": "/basic-svg-using-origin",
     "topic": "svg"
+  },
+  {
+    "title": "Basic SVG using zero as default for origin",
+    "route": "/basic-svg-using-zero-as-default-for-attributes",
+    "topic": "svg"
   }
 ]
