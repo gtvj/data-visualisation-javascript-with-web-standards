@@ -1,6 +1,6 @@
 # Data visualisation with JavaScript
 
-This repository is a companion to the introduction for developers along with follow-along examples.
+This repository is a companion to the [introduction for developers](https://docs.google.com/presentation/d/1H8UbPesAFGUxk4IuWzBh3QmIHK1oG55WdYIeGjZ7ezU/edit?usp=sharing) along with follow-along examples.
 
 ## Development machine configuration
 
