@@ -1,9 +1,11 @@
 module.exports = {
     watch: true,
-    entry: "./app/static/scripts/src/main.js",
+    entry: {
+        our_first_react_component: "./app/static/scripts/src/our_first_react_component.js"
+    },
     output: {
         path: __dirname + "/app/static/scripts/dist",
-        filename: "app.js",
+        filename: "[name].js",
         publicPath: "assets"
     },
     module: {
