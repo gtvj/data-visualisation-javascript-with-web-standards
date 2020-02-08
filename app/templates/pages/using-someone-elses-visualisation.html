@@ -1,0 +1,100 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+
+<h1>Using someone else's visualisation</h1>
+<p>This page demonstrates a visualisation created by plugging our own data into an existing visual and tweaking the code slightly.</p>
+<style>
+    rect {
+        fill: #dde5d5;
+        opacity: 0.3;
+        stroke: black;
+    }
+
+    g a:focus rect, g a:hover rect {
+        fill: black;
+        color: white;
+    }
+
+    text {
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
+        font-size: 1em;
+    }
+</style>
+
+<svg width="800" height="400">
+    <g></g>
+</svg>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+<script>
+    var data = {
+        "name": "PROB",
+        "children": [
+            {
+                "name": "PROB 1",
+                "value": 5,
+                "href": '/scopeviewer/prob_1'
+            },
+            {
+                "name": "PROB 2",
+                "value": 21,
+                "href": '/scopeviewer/prob_1'
+            },
+            {
+                "name": "PROB 3",
+                "value": 14,
+                "href": '/scopeviewer/prob_1'
+            },
+            {
+                "name": "PROB 4",
+                "value": 14,
+                "href": '/scopeviewer/prob_1'
+            }
+        ]
+    };
+
+    var treemapLayout = d3.treemap()
+        .size([800, 400])
+        .paddingTop(40)
+        .paddingInner(0);
+
+    var rootNode = d3.hierarchy(data);
+
+    rootNode.sum(function (d) {
+        return d.value;
+    });
+
+    treemapLayout(rootNode);
+
+    var nodes = d3.select('svg g')
+        .selectAll('g')
+        .data(rootNode.descendants())
+        .enter()
+        .append('g')
+        .attr('transform', function (d) {
+            return 'translate(' + [d.x0, d.y0] + ')'
+        });
+
+    nodes
+        .append('a').attr('href', function (d) {
+        return d.data.href
+    })
+        .append('rect')
+        .attr('width', function (d) {
+            return d.x1 - d.x0;
+        })
+        .attr('height', function (d) {
+            return d.y1 - d.y0;
+        });
+
+    nodes
+        .append('text')
+        .attr('dx', 14)
+        .attr('dy', 24)
+        .text(function (d) {
+            return d.data.name;
+        })
+
+</script>
+{% endblock %}
