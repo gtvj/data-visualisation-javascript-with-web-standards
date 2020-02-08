@@ -1,7 +1,10 @@
 from app import app
 from flask import render_template
+import json
 
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template("index.html", title="Home page")
+    with open('app/data/pages.json') as pages:
+        pages = json.load(pages)
+    return render_template("index.html", title="Data visualisation in JavaScript", pages=pages)

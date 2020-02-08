@@ -1,4 +1,18 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div class="grid-x grid-margin-x">
+    {% for page in pages %}
+    <div class="cell small-6 medium-4 large-2">
+        <a href="{{ page.route }}">
+            <div class="card">
+                <img src="/static/images/{{ page.topic }}.png">
+                <div class="card-section">
+                    <p>{{ page.title }}</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
