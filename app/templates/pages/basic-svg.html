@@ -1,0 +1,27 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+
+<style>
+svg {
+    border: 1px solid black;
+}
+
+text {
+    font-family: monospace;
+}
+</style>
+
+<h1>Basic SVG</h1>
+<p>No D3 here. Notice how CSS is used on the SVG and its elements.</p>
+<svg width="500" height="300">
+    <line x1="100" y1="100" x2="300" y2="100" stroke="black"></line>
+    <circle r="3" cx="300" cy="100"></circle>
+    <text x="100" y="90">Here's a line</text>
+
+    <line x1="100" y1="200" x2="200" y2="200" stroke="black"></line>
+    <circle r="3" cx="200" cy="200"></circle>
+    <text x="100" y="190">Here's another line</text>
+</svg>
+
+{% endblock %}
