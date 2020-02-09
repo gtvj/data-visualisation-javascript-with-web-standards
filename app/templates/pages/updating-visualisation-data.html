@@ -1,0 +1,179 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+<h1>Updating visualisation data</h1>
+<p>This is an example of updating and transitioning a treemap. The code shown in this example has been forked from <a
+        href="https://bl.ocks.org/HarryStevens/545ca9d50cb9abbd68bfee526b0541f9">Treemap Update Pattern</a></p>
+<div id="visualisation-container"></div>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+    const margin = {top: 0, right: 40, bottom: 0, left: 40},
+        aspect = .85,
+        minHeight = 400,
+        duration = 500;
+
+    const treemap = d3.treemap()
+        .padding(1)
+        .round(true);
+
+    const svg = d3.select("#visualisation-container").append("svg");
+
+    const g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    let root = d3.hierarchy(getData())
+        .sum(d => d.value)
+        .sort((a, b) => b.value - a.value);
+
+    draw();
+    onresize = _ => draw(true);
+
+    d3.interval(_ => {
+        root = d3.hierarchy(getData())
+            .sum(d => d.value)
+            .sort((a, b) => b.value - a.value);
+
+        draw();
+    }, duration * 4);
+
+    function draw(resizing) {
+
+        let container_width = document.getElementById('visualisation-container').offsetWidth;
+
+        let width = container_width - margin.left - margin.right;
+        let baseHeight = container_width * aspect;
+        baseHeight = baseHeight < minHeight ? minHeight : baseHeight > window.innerHeight ? window.innerHeight : baseHeight;
+        let height = baseHeight - margin.top - margin.bottom;
+
+        svg
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+
+        g
+            .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+        treemap.size([width, height]);
+
+        const leaves = treemap(root).leaves();
+
+        const rects = svg.selectAll(".rect")
+            .data(leaves, d => d.data.name);
+
+        if (resizing) {
+            rects.exit().remove();
+
+            rects
+                .attr("transform", d => `translate(${d.x0},${d.y0})`)
+                .attr("width", d => d.x1 - d.x0)
+                .attr("height", d => d.y1 - d.y0);
+        } else {
+            rects.exit()
+                .style("opacity", 1)
+                .transition().duration(duration)
+                .style("opacity", 1e-6)
+                .remove();
+
+            rects.transition().duration(duration)
+                .attr("transform", d => `translate(${d.x0},${d.y0})`)
+                .attr("width", d => d.x1 - d.x0)
+                .attr("height", d => d.y1 - d.y0);
+        }
+
+        rects.enter().append("rect")
+            .attr("class", "rect")
+            .style("fill", d => 'silver')
+            .attr("transform", d => `translate(${d.x0},${d.y0})`)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("height", d => d.y1 - d.y0)
+            .style("opacity", 1e-6)
+            .transition().duration(duration)
+            .style("opacity", 1);
+
+        const labels = svg.selectAll(".label")
+            .data(leaves.filter(f => f.x1 - f.x0 > 60 && f.y1 - f.y0 > 30), d => d.data.name);
+
+        if (resizing) {
+            labels.exit().remove();
+
+            labels
+                .html(d => `<tspan style='font-weight: 500'>${d.data.name}</tspan><tspan dx=10>${d.data.value}</tspan>`)
+                .attr("transform", d => `translate(${d.x0}, ${d.y0})`);
+        } else {
+            labels.exit()
+                .style("opacity", 1)
+                .transition().duration(duration)
+                .style("opacity", 1e-6)
+                .remove();
+
+            labels
+                .html(d => `<tspan style='font-weight: 500'>${d.data.name}</tspan>`)
+                .transition().duration(duration)
+                .attr("transform", d => `translate(${d.x0}, ${d.y0})`);
+        }
+
+        labels.enter().append("text")
+            .attr("class", "label")
+            .attr("dy", 16)
+            .attr("dx", 5)
+            .attr("transform", d => `translate(${d.x0}, ${d.y0})`)
+            .html(d => `<tspan style='font-weight: 500'>${d.data.name}</tspan>`)
+            .style("opacity", 1e-6)
+            .transition().duration(duration)
+            .style("opacity", 1);
+    }
+
+    // This function is a mock. Don't think about it's internals: just know that it:
+    //  - Returns the data that the treemap uses
+    //  - Will return alternate data each time it's called.
+    function getData() {
+
+        if (!this.called_before) {
+            this.called_before = true;
+            return {
+                "name": "PROB",
+                "children": [
+                    {
+                        "name": "PROB 1",
+                        "value": 5,
+                        "href": '/scopeviewer/prob_1'
+                    },
+                    {
+                        "name": "PROB 2",
+                        "value": 21,
+                        "href": '/scopeviewer/prob_1'
+                    }
+                ]
+            }
+        }
+
+        this.called_before = false;
+        return {
+            "name": "PROB",
+            "children": [
+                {
+                    "name": "PROB 1",
+                    "value": 25,
+                    "href": '/scopeviewer/prob_1'
+                },
+                {
+                    "name": "PROB 2",
+                    "value": 21,
+                    "href": '/scopeviewer/prob_1'
+                },
+                {
+                    "name": "PROB 3",
+                    "value": 14,
+                    "href": '/scopeviewer/prob_1'
+                },
+                {
+                    "name": "PROB 4",
+                    "value": 14,
+                    "href": '/scopeviewer/prob_1'
+                }
+            ]
+        }
+    }
+
+</script>
+
+{% endblock %}

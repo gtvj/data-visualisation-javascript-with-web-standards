@@ -85,5 +85,14 @@
       "d3",
       "react"
     ]
+  },
+  {
+    "title": "Updating visualisation data",
+    "route": "/updating-visualisation-data",
+    "technologies": [
+      "svg",
+      "d3",
+      "react"
+    ]
   }
 ]
