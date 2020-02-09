@@ -94,5 +94,14 @@
       "d3",
       "react"
     ]
+  },
+  {
+    "title": "Lnking data updates to form visualisation",
+    "route": "/linking-data-updates-to-form",
+    "technologies": [
+      "svg",
+      "d3",
+      "react"
+    ]
   }
 ]
