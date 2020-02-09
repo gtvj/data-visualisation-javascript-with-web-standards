@@ -91,17 +91,24 @@
     "route": "/updating-visualisation-data",
     "technologies": [
       "svg",
-      "d3",
-      "react"
+      "d3"
     ]
   },
   {
-    "title": "Lnking data updates to form visualisation",
+    "title": "Linking data updates to form visualisation",
     "route": "/linking-data-updates-to-form",
     "technologies": [
       "svg",
+      "d3"
+    ]
+  },
+  {
+    "title": "Linking data updates to jQuery UI range",
+    "route": "/linking-data-updates-to-jquery-ui-range",
+    "technologies": [
+      "svg",
       "d3",
-      "react"
+      "jQuery UI"
     ]
   }
 ]

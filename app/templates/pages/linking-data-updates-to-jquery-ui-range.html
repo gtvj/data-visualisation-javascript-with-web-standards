@@ -1,0 +1,290 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+<!-- jQuery UI stuff -->
+<link rel="stylesheet" href="/static/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+<link rel="stylesheet" href="/static/lib/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="/static/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+
+<h1>Filtering visualisation data by jQuery UI range</h1>
+<p>This takes the <a
+        href="https://bl.ocks.org/HarryStevens/545ca9d50cb9abbd68bfee526b0541f9">Treemap Update Pattern</a> a step
+    further by introducing a jQuery UI range to interact with the visualisation</p>
+<p>
+    <label for="dates">Date range:</label>
+    <input type="text" id="dates" readonly style="border:0; color:#f6931f; background: transparent; font-weight:bold;">
+</p>
+
+<div id="slider" style="margin-bottom: 2em"></div>
+
+<div id="visualisation-container"></div>
+
+<script>
+
+    $("#slider").slider({
+        range: true,
+        min: 1000,
+        max: 2020,
+        values: [1000, 1970],
+        change: function (event, ui) {
+
+            let min_selected_year = ui.values[0],
+                max_selected_year = ui.values[1],
+                filtered_children = get_data(min_selected_year, max_selected_year);
+
+            root = d3.hierarchy(filtered_children)
+                .sum(d => d.value)
+                .sort((a, b) => b.value - a.value);
+
+            draw();
+
+            $("#dates").val(ui.values[0] + " - " + ui.values[1]);
+        }
+    });
+
+    $("#dates").val($("#slider").slider("values", 0) +
+        " to " + $("#slider").slider("values", 1));
+
+    const margin = {top: 0, right: 0, bottom: 0, left: 0},
+        aspect = .85,
+        minHeight = 400,
+        duration = 500;
+
+    const treemap = d3.treemap()
+        .padding(1)
+        .round(true);
+
+    const svg = d3.select("#visualisation-container").append("svg");
+
+    const g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    let root = d3.hierarchy(get_data($("#slider").slider("values", 0), $("#slider").slider("values", 1)))
+        .sum(d => d.value)
+        .sort((a, b) => b.value - a.value);
+
+    draw();
+
+    onresize = _ => draw(true);
+
+    function draw(resizing) {
+
+        let container_width = document.getElementById('visualisation-container').offsetWidth;
+
+        let width = container_width - margin.left - margin.right;
+        let baseHeight = container_width * aspect;
+        baseHeight = baseHeight < minHeight ? minHeight : baseHeight > window.innerHeight ? window.innerHeight : baseHeight;
+        let height = baseHeight - margin.top - margin.bottom;
+
+        svg
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+
+        g
+            .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+        treemap.size([width, height]);
+
+        const leaves = treemap(root).leaves();
+
+        const rects = svg.selectAll(".rect")
+            .data(leaves, d => d.data.reference);
+
+        if (resizing) {
+            rects.exit().remove();
+
+            rects
+                .attr("transform", d => `translate(${d.x0},${d.y0})`)
+                .attr("width", d => d.x1 - d.x0)
+                .attr("height", d => d.y1 - d.y0);
+        } else {
+            rects.exit()
+                .style("opacity", 1)
+                .transition().duration(duration)
+                .style("opacity", 1e-6)
+                .remove();
+
+            rects.transition().duration(duration)
+                .attr("transform", d => `translate(${d.x0},${d.y0})`)
+                .attr("width", d => d.x1 - d.x0)
+                .attr("height", d => d.y1 - d.y0);
+        }
+
+        rects.enter().append("rect")
+            .attr("class", "rect")
+            .style("fill", d => 'silver')
+            .attr("transform", d => `translate(${d.x0},${d.y0})`)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("height", d => d.y1 - d.y0)
+            .style("opacity", 1e-6)
+            .transition().duration(duration)
+            .style("opacity", 1);
+
+        const labels = svg.selectAll(".label")
+            .data(leaves.filter(f => f.x1 - f.x0 > 60 && f.y1 - f.y0 > 30), d => d.data.reference);
+
+        if (resizing) {
+            labels.exit().remove();
+
+            labels
+                .html(d => `<tspan style='font-weight: 500'>${d.data.reference}</tspan><tspan dx=10>${d.data.value}</tspan>`)
+                .attr("transform", d => `translate(${d.x0}, ${d.y0})`);
+        } else {
+            labels.exit()
+                .style("opacity", 1)
+                .transition().duration(duration)
+                .style("opacity", 1e-6)
+                .remove();
+
+            labels
+                .html(d => `<tspan style='font-weight: 500'>${d.data.reference}</tspan>`)
+                .transition().duration(duration)
+                .attr("transform", d => `translate(${d.x0}, ${d.y0})`);
+        }
+
+        labels.enter().append("text")
+            .attr("class", "label")
+            .attr("dy", 16)
+            .attr("dx", 5)
+            .attr("transform", d => `translate(${d.x0}, ${d.y0})`)
+            .html(d => `<tspan style='font-weight: 500'>${d.data.reference}</tspan>`)
+            .style("opacity", 1e-6)
+            .transition().duration(duration)
+            .style("opacity", 1);
+    }
+
+    function get_data(start_year, end_year) {
+
+        let initial_data = {
+            "reference": "The National Archives",
+            "children": [
+                {
+                    "reference": "WO",
+                    "value": "90",
+                    "href": "/scopeviewer/WO",
+                    "title": "War Office",
+                    "start_date": "1830",
+                    "end_date": "1960"
+                },
+                {
+                    "reference": "CO",
+                    "value": "21",
+                    "href": "/scopeviewer/CO",
+                    "title": "Colonial Office",
+                    "start_date": "1730",
+                    "end_date": "1970"
+                },
+                {
+                    "reference": "MMS",
+                    "value": "42",
+                    "href": "/scopeviewer/CO",
+                    "title": "Ministry of Mushrooms",
+                    "start_date": "1130",
+                    "end_date": "1270"
+                },
+                {
+                    "reference": "HO",
+                    "value": "442",
+                    "href": "/scopeviewer/CO",
+                    "title": "Home Office",
+                    "start_date": "1660",
+                    "end_date": "2020"
+                },
+                {
+                    "reference": "WKO",
+                    "value": "90",
+                    "href": "/scopeviewer/WO",
+                    "title": "Weekend Office",
+                    "start_date": "1830",
+                    "end_date": "1960"
+                },
+                {
+                    "reference": "MOS",
+                    "value": "11",
+                    "href": "/scopeviewer/CO",
+                    "title": "Ministry of Something",
+                    "start_date": "1730",
+                    "end_date": "1970"
+                },
+                {
+                    "reference": "MM",
+                    "value": "42",
+                    "href": "/scopeviewer/CO",
+                    "title": "Ministry of Magic",
+                    "start_date": "1130",
+                    "end_date": "1270"
+                },
+                {
+                    "reference": "DFT",
+                    "value": "90",
+                    "href": "/scopeviewer/WO",
+                    "title": "Department for Transport",
+                    "start_date": "1950",
+                    "end_date": "2020"
+                },
+                {
+                    "reference": "CO",
+                    "value": "21",
+                    "href": "/scopeviewer/CO",
+                    "title": "Colonial Office",
+                    "start_date": "1730",
+                    "end_date": "1970"
+                },
+                {
+                    "reference": "MM",
+                    "value": "42",
+                    "href": "/scopeviewer/CO",
+                    "title": "Ministry of Magic",
+                    "start_date": "1130",
+                    "end_date": "1270"
+                },
+                {
+                    "reference": "MD",
+                    "value": "42",
+                    "href": "/scopeviewer/CO",
+                    "title": "Ministry of Dance",
+                    "start_date": "1980",
+                    "end_date": "2020"
+                },
+                {
+                    "reference": "WO",
+                    "value": "90",
+                    "href": "/scopeviewer/WO",
+                    "title": "War Office",
+                    "start_date": "1830",
+                    "end_date": "1960"
+                },
+                {
+                    "reference": "TNA",
+                    "value": "221",
+                    "href": "/scopeviewer/CO",
+                    "title": "The National Archives",
+                    "start_date": "1890",
+                    "end_date": "2020"
+                },
+                {
+                    "reference": "MM",
+                    "value": "42",
+                    "href": "/scopeviewer/CO",
+                    "title": "Ministry of Magic",
+                    "start_date": "1130",
+                    "end_date": "1270"
+                }
+            ]
+        };
+
+        filtered_data = initial_data['children'].filter(function (i) {
+            return i.start_date >= start_year && i.end_date <= end_year;
+        });
+
+        return {
+            "reference": "The National Archives",
+            "children": filtered_data
+        }
+    }
+
+</script>
+
+{% endblock %}
