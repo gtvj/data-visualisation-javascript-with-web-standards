@@ -110,5 +110,14 @@
       "d3",
       "jQuery UI"
     ]
+  },
+  {
+    "title": "Linking async data updates to jQuery UI range",
+    "route": "/linking-async-data-updates-to-jquery-ui-range",
+    "technologies": [
+      "svg",
+      "d3",
+      "jQuery UI"
+    ]
   }
 ]
