@@ -5,113 +5,85 @@
       "reference": "WO",
       "value": "90",
       "href": "/scopeviewer/WO",
-      "title": "War Office",
-      "start_date": "1830",
-      "end_date": "1960"
+      "title": "War Office"
     },
     {
       "reference": "CO",
       "value": "21",
       "href": "/scopeviewer/CO",
-      "title": "Colonial Office",
-      "start_date": "1730",
-      "end_date": "1970"
+      "title": "Colonial Office"
     },
     {
       "reference": "MMS",
       "value": "42",
       "href": "/scopeviewer/CO",
-      "title": "Ministry of Mushrooms",
-      "start_date": "1130",
-      "end_date": "1270"
+      "title": "Ministry of Mushrooms"
     },
     {
       "reference": "HO",
       "value": "442",
       "href": "/scopeviewer/CO",
-      "title": "Home Office",
-      "start_date": "1660",
-      "end_date": "2020"
+      "title": "Home Office"
     },
     {
       "reference": "WKO",
       "value": "90",
       "href": "/scopeviewer/WO",
-      "title": "Weekend Office",
-      "start_date": "1830",
-      "end_date": "1960"
+      "title": "Weekend Office"
     },
     {
       "reference": "MOS",
       "value": "11",
       "href": "/scopeviewer/CO",
-      "title": "Ministry of Something",
-      "start_date": "1730",
-      "end_date": "1970"
+      "title": "Ministry of Something"
     },
     {
       "reference": "MM",
       "value": "42",
       "href": "/scopeviewer/CO",
-      "title": "Ministry of Magic",
-      "start_date": "1130",
-      "end_date": "1270"
+      "title": "Ministry of Magic"
     },
     {
       "reference": "DFT",
       "value": "90",
       "href": "/scopeviewer/WO",
-      "title": "Department for Transport",
-      "start_date": "1950",
-      "end_date": "2020"
+      "title": "Department for Transport"
     },
     {
       "reference": "CO",
       "value": "21",
       "href": "/scopeviewer/CO",
-      "title": "Colonial Office",
-      "start_date": "1730",
-      "end_date": "1970"
+      "title": "Colonial Office"
     },
     {
       "reference": "MM",
       "value": "42",
       "href": "/scopeviewer/CO",
-      "title": "Ministry of Magic",
-      "start_date": "1130",
-      "end_date": "1270"
+      "title": "Ministry of Magic"
     },
     {
       "reference": "MD",
       "value": "42",
       "href": "/scopeviewer/CO",
-      "title": "Ministry of Dance",
-      "start_date": "1980",
-      "end_date": "2020"
+      "title": "Ministry of Dance"
     },
     {
       "reference": "WO",
       "value": "90",
       "href": "/scopeviewer/WO",
-      "title": "War Office",
-      "start_date": "1830",
-      "end_date": "1960"
+      "title": "War Office"
     },
     {
       "reference": "TNA",
       "value": "221",
       "href": "/scopeviewer/CO",
-      "title": "The National Archives",
-      "start_date": "1890",
-      "end_date": "2020"
+      "title": "The National Archives"
     },
     {
       "reference": "MM",
       "value": "42",
       "href": "/scopeviewer/CO",
-      "title": "Ministry of Magic",
-      "start_date": "1130",
-      "end_date": "1270"
+      "title": "Ministry of Magic"
     }
   ]
 }

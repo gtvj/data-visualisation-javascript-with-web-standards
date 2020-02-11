@@ -1,13 +1,45 @@
-{% extends "page_layout.html" %}
-
-{% block content %}
-<h1>Updating visualisation data</h1>
-<p>This is an example of updating and transitioning a treemap. The code shown in this example has been forked from <a
-        href="https://bl.ocks.org/HarryStevens/545ca9d50cb9abbd68bfee526b0541f9">Treemap Update Pattern</a></p>
-<div id="visualisation-container"></div>
+{% extends "page_layout.html" %} {% block content %}
+<!-- jQuery UI stuff -->
+<link rel="stylesheet" href="/static/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+<link rel="stylesheet" href="/static/lib/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="/static/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
+
+<h1>Filtering visualisation data by jQuery UI range</h1>
+<p>This takes the <a href="https://bl.ocks.org/HarryStevens/545ca9d50cb9abbd68bfee526b0541f9">Treemap Update Pattern</a> a step further by introducing a jQuery UI range to interact with the visualisation</p>
+
+<div id="slider" style="margin-bottom: 2em"></div>
+
+<div id="visualisation-container"></div>
+
 <script>
-    const margin = {top: 0, right: 40, bottom: 0, left: 40},
+    var $slider = $("#slider");
+
+    $slider.slider({
+        range: true,
+        min: 1000,
+        max: 2020,
+        values: [1010, 2010]
+    });
+
+    $slider.on('slidechange', function() {
+        d3.json('/static/data/new-visualisation-data.json').then(function(data) {
+            console.log('Console data has been fetched')
+            root = d3.hierarchy(data)
+                .sum(d => d.value)
+                .sort((a, b) => b.value - a.value);
+
+            draw();
+        });
+    })
+
+    const margin = {
+            top: 0,
+            right: 40,
+            bottom: 0,
+            left: 40
+        },
         aspect = .85,
         minHeight = 400,
         duration = 500;
@@ -23,7 +55,7 @@
 
     let root;
 
-    d3.json('/static/data/visualisation-data.json').then(function (data) {
+    d3.json('/static/data/visualisation-data.json').then(function(data) {
         root = d3.hierarchy(data)
             .sum(d => d.value)
             .sort((a, b) => b.value - a.value);
@@ -31,19 +63,10 @@
         draw();
     });
 
-    onresize = _ => draw(true);
-
-    d3.interval(_ => {
-
-        d3.json('/static/data/new-visualisation-data.json').then(function (data) {
-            root = d3.hierarchy(data)
-                .sum(d => d.value)
-                .sort((a, b) => b.value - a.value);
-
-            draw();
-        });
-
-    }, duration * 4);
+    window.onresize = function() {
+        console.log('Resize event')
+        draw(true)
+    }
 
     function draw(resizing) {
 
@@ -107,7 +130,7 @@
             labels.exit().remove();
 
             labels
-                .html(d => `<tspan style='font-weight: 500'>${d.data.title}</tspan><tspan dx=10>${d.data.value}</tspan>`)
+                .html(d => `<tspan style='font-weight: 500'>${d.data.reference}</tspan>`)
                 .attr("transform", d => `translate(${d.x0}, ${d.y0})`);
         } else {
             labels.exit()
@@ -117,7 +140,7 @@
                 .remove();
 
             labels
-                .html(d => `<tspan style='font-weight: 500'>${d.data.title}</tspan>`)
+                .html(d => `<tspan style='font-weight: 500'>${d.data.reference}</tspan>`)
                 .transition().duration(duration)
                 .attr("transform", d => `translate(${d.x0}, ${d.y0})`);
         }
@@ -127,12 +150,11 @@
             .attr("dy", 16)
             .attr("dx", 5)
             .attr("transform", d => `translate(${d.x0}, ${d.y0})`)
-            .html(d => `<tspan style='font-weight: 500'>${d.data.title}</tspan>`)
+            .html(d => `<tspan style='font-weight: 500'>${d.data.reference}</tspan>`)
             .style("opacity", 1e-6)
             .transition().duration(duration)
             .style("opacity", 1);
     }
-
 </script>
 
 {% endblock %}
