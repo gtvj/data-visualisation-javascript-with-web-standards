@@ -1,0 +1,72 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+<style>
+    div.bar {
+        display: inline-block;
+        width: 20px;
+        height: 75px; /* We'll override height later */
+        background-color: teal;
+    }
+</style>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<h1>Building a real chart with D3</h1>
+<p>This is a step-by-step (see headings below) go at building a real chart in D3</p>
+
+
+<h2>Step 1</h2>
+<p>A quick look at how <code>d3.selectAll()</code> works and <em>why we sometimes select things that don't exist.</em></p>
+<blockquote>
+    With D3, you always have to first select whatever it is you’re about to act on, even if that selection is
+    momentarily empty
+    <cite>Interactive Data Visualization for the Web, 2nd Edition</cite>
+</blockquote>
+<p>At this point we have an SVG containing a <code>&ltrect&gt</code> for each item in the array. We can only see one because they're directly above each other.
+<h3>What happened here?</h3>
+<p>This code:</p>
+<ul>
+    <li><code>svg.selectAll("rect")</code> selected all <code>&ltrect&gt</code> elements in the SVG (Of course, in this case, there were none - but there might have been)</li>
+    <li><code>.data(dataset)</code> identifies that there are 5 data points in our set and hands them off to <code>enter()</code> for processing</li>
+    <li><code>enter()</code> in turn returns a data point for each data point that does not have a correspoinding <code>&ltrect&gt</code> (i.e. all of them)</li>
+    <li><code>.append("rect")</code> creates a <code>&ltrect&gt</code> <strong>for each data point</strong></code></li>
+    <li>the <code>attr()</code> calls which follow apply the attributes <strong>to each of the <code>&ltrect&gt</code> elements</strong></li>
+</ul>
+<div class="step-one"></div>
+<script>
+
+    let dataset = [1,2,3,4,5];
+
+    let svg = d3.select('.step-one').append('svg').attr('width', 500).attr('height', 110);
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 20)
+        .attr("height", 100);
+
+</script>
+
+<h2>Step 2</h2>
+<p>We'll stop the bars from overlapping by setting each <code>&ltrect&gt</code> to have an "x" attribute that is a function of the item's index in the array. <strong>Note:</strong> the index is the second positional argument (the first is the value)</p>
+<div class="step-two"></div>
+<script>
+
+    svg = d3.select('.step-two').append('svg').attr('width', 500).attr('height', 110);
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", function (d, i) {
+            console.log(i);
+            return i * 22
+        })
+        .attr("y", 0)
+        .attr("width", 20)
+        .attr("height", 100);
+
+</script>
+{% endblock %}

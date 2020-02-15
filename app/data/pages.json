@@ -119,5 +119,12 @@
       "d3",
       "jQuery UI"
     ]
+  },
+  {
+    "title": "Building a real chart with D3",
+    "route": "/building-a-real-chart-with-d3",
+    "technologies": [
+      "d3"
+    ]
   }
 ]
