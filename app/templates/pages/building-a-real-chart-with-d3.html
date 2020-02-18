@@ -14,27 +14,36 @@
 <p>This is a step-by-step (see headings below) go at building a real chart in D3</p>
 
 
-<h2>Step 1</h2>
-<p>A quick look at how <code>d3.selectAll()</code> works and <em>why we sometimes select things that don't exist.</em></p>
+<h2>Step 1: draw some bars</h2>
+<p>A quick look at how <code>d3.selectAll()</code> works and <em>why we sometimes select things that don't exist.</em>
+</p>
 <blockquote>
     With D3, you always have to first select whatever it is you’re about to act on, even if that selection is
     momentarily empty
     <cite>Interactive Data Visualization for the Web, 2nd Edition</cite>
 </blockquote>
-<p>At this point we have an SVG containing a <code>&ltrect&gt</code> for each item in the array. We can only see one because they're directly above each other.
+<p>At this point we have an SVG containing a <code>&ltrect&gt</code> for each item in the array. We can only see one
+    because they're directly above each other.
 <h3>What happened here?</h3>
 <p>This code:</p>
 <ul>
-    <li><code>svg.selectAll("rect")</code> selected all <code>&ltrect&gt</code> elements in the SVG (Of course, in this case, there were none - but there might have been)</li>
-    <li><code>.data(dataset)</code> identifies that there are 5 data points in our set and hands them off to <code>enter()</code> for processing</li>
-    <li><code>enter()</code> in turn returns a data point for each data point that does not have a correspoinding <code>&ltrect&gt</code> (i.e. all of them)</li>
+    <li><code>svg.selectAll("rect")</code> selected all <code>&ltrect&gt</code> elements in the SVG (Of course, in this
+        case, there were none - but there might have been)
+    </li>
+    <li><code>.data(dataset)</code> identifies that there are 5 data points in our set and hands them off to <code>enter()</code>
+        for processing
+    </li>
+    <li><code>enter()</code> in turn returns a data point for each data point that does not have a correspoinding <code>&ltrect&gt</code>
+        (i.e. all of them)
+    </li>
     <li><code>.append("rect")</code> creates a <code>&ltrect&gt</code> <strong>for each data point</strong></code></li>
-    <li>the <code>attr()</code> calls which follow apply the attributes <strong>to each of the <code>&ltrect&gt</code> elements</strong></li>
+    <li>the <code>attr()</code> calls which follow apply the attributes <strong>to each of the <code>&ltrect&gt</code>
+        elements</strong></li>
 </ul>
 <div class="step-one"></div>
 <script>
 
-    let dataset = [1,2,3,4,5];
+    let dataset = [1, 2, 3, 4, 5];
 
     let svg = d3.select('.step-one').append('svg').attr('width', 500).attr('height', 110);
 
@@ -49,8 +58,10 @@
 
 </script>
 
-<h2>Step 2</h2>
-<p>We'll stop the bars from overlapping by setting each <code>&ltrect&gt</code> to have an "x" attribute that is a function of the item's index in the array. <strong>Note:</strong> the index is the second positional argument (the first is the value)</p>
+<h2>Step 2: prevent the bars from overlapping</h2>
+<p>We'll stop the bars from overlapping by setting each <code>&ltrect&gt</code> to have an "x" attribute that is a
+    function of the item's index in the array. <strong>Note:</strong> the index is the second positional argument (the
+    first is the value)</p>
 <div class="step-two"></div>
 <script>
 
@@ -69,4 +80,114 @@
         .attr("height", 100);
 
 </script>
+<h2>Step 3: making the chart flexible</h2>
+<p>The problem with our current chart is that the bars could easily extend outside the bounds of the SVG</p>
+<h3>The problem</h3>
+<p>This chart has 40 data points, but only those that fit within the SVG are displayed</p>
+<div class="step-three"></div>
+<script>
+
+    {
+        let dataset = [];
+
+        for (let i = 0; i < 40; i++) {
+            dataset.push(Math.ceil(Math.random() * 5))
+        }
+
+        svg = d3.select('.step-three').append('svg').attr('width', 500).attr('height', 110);
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", function (d, i) {
+                return i * 22
+            })
+            .attr("y", 0)
+            .attr("width", 20)
+            .attr("height", 100);
+    }
+
+</script>
+<h3>The solution: set the x position and width to reflect the width</h3>
+<p>This works for 2 data points</p>
+<div class="step-three-solution-example-one"></div>
+<script>
+
+    {
+        let dataset = [5, 15];
+
+        let w = 500,
+            h = 110,
+            bar_margin = 5;
+
+        svg = d3.select('.step-three-solution-example-one').append('svg').attr('width', w).attr('height', h);
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", function (d, i) {
+                return i * (w / dataset.length);
+            })
+            .attr("y", 0)
+            .attr("width", function (d, i) {
+                return (w / dataset.length) - bar_margin;
+            })
+            .attr("height", 100);
+    }
+
+</script>
+<p>...or 70</p>
+<h4>What happened here?</h4>
+<div class="step-three-solution-example-two"></div>
+<script>
+
+    {
+        let dataset = [];
+
+        for (let i = 0; i < 70; i++) {
+            dataset.push(Math.ceil(Math.random() * 5))
+        }
+
+        let w = 500,
+            h = 110,
+            bar_margin = 5;
+
+        svg = d3.select('.step-three-solution-example-two').append('svg').attr('width', w).attr('height', h);
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", function (d, i) {
+                return i * (w / dataset.length);
+            })
+            .attr("y", 0)
+            .attr("width", function (d, i) {
+                return (w / dataset.length) - bar_margin;
+            })
+            .attr("height", 100);
+    }
+
+</script>
+<p>We:</p>
+<ul>
+    <li>introduced a few variables:
+        <ul>
+            <li><code>w</code> and <code>h</code>, so that we can refer to these later</li>
+            <li><code>bar_margin</code> to hold the space between bars</li>
+        </ul>
+    </li>
+    <li>Set the <code>x</code> attribute for each item to be a function that takes account of:
+        <ul>
+            <li>the width of the svg</li>
+            <li>the number of items to be displayed</li>
+            <li>the index of the current item</li>
+        </ul>
+        For example, if our SVG had a width of 100, and the dataset had 4 data points, and the current item was second, <code>x</code> would be 25 or (1 * (100 / 4))
+    </li>
+    <li>Set the <code>width</code> to be a function using the SVG width, number of data points and our new <code>bar_margin</code> variable. So, if our SVG had a width of 100, the dataset had 4 datapoints and the <code>bar_margin</code> was 2, <code>width</code> would be 23 or ((100 / 4) - 1)</li>
+</ul>
+<h2>Step 4: setting the height for each bar</h2>
 {% endblock %}
