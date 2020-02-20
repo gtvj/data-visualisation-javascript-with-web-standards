@@ -185,9 +185,121 @@
             <li>the number of items to be displayed</li>
             <li>the index of the current item</li>
         </ul>
-        For example, if our SVG had a width of 100, and the dataset had 4 data points, and the current item was second, <code>x</code> would be 25 or (1 * (100 / 4))
+        For example, if our SVG had a width of 100, and the dataset had 4 data points, and the current item was second,
+        <code>x</code> would be 25 or (1 * (100 / 4))
     </li>
-    <li>Set the <code>width</code> to be a function using the SVG width, number of data points and our new <code>bar_margin</code> variable. So, if our SVG had a width of 100, the dataset had 4 datapoints and the <code>bar_margin</code> was 2, <code>width</code> would be 23 or ((100 / 4) - 1)</li>
+    <li>Set the <code>width</code> to be a function using the SVG width, number of data points and our new <code>bar_margin</code>
+        variable. So, if our SVG had a width of 100, the dataset had 4 datapoints and the <code>bar_margin</code> was 2,
+        <code>width</code> would be 23 or ((100 / 4) - 1)
+    </li>
 </ul>
 <h2>Step 4: setting the height for each bar</h2>
+<p>The "<em>obvious</em>" (though nothing's obvious really) thing to try is setting the height of each bar to the value
+    of <code>d</code>. But things look a little strange if we do this. </p>
+<p>This is because SVG coordinates start at the top left.</p>
+<div class="step-four-part-one"></div>
+<script>
+
+    {
+        let dataset = [],
+            w = 500,
+            h = 110,
+            bar_margin = 5;
+
+        for (let i = 0; i < 70; i++) {
+            dataset.push(Math.ceil(Math.random() * h))
+        }
+
+        svg = d3.select('.step-four-part-one').append('svg').attr('width', w).attr('height', h);
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", function (d, i) {
+                return i * (w / dataset.length);
+            })
+            .attr("y", 0)
+            .attr("width", function (d, i) {
+                return (w / dataset.length) - bar_margin;
+            })
+            .attr("height", function (d) {
+                return d;
+            });
+    }
+
+</script>
+<p>To overcome this, we need to set the <code>y</code> for each bar to the height of the svg (<code>h</code>) minus the
+    specific data point (<code>d</code>). It's all a bit topsy turvy, but makes sense if you think about it</p>
+<div class="step-four-part-two"></div>
+<script>
+
+    dataset = [],
+        w = 500,
+        h = 110,
+        bar_margin = 5;
+
+    for (let i = 0; i < 10; i++) {
+        dataset.push(Math.ceil(Math.random() * h))
+    }
+
+    svg = d3.select('.step-four-part-two').append('svg').attr('width', w).attr('height', h)
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", function (d, i) {
+            return i * (w / dataset.length);
+        })
+        .attr("y", function (d, i) {
+            return h - d;
+        })
+        .attr("width", function (d, i) {
+            return (w / dataset.length) - bar_margin;
+        })
+        .attr("height", function (d) {
+            return d;
+        });
+
+
+</script>
+<div class="step-four-part-three"></div>
+<p>To illustrate this, I've added some circles to show the starting point for each rect in the bar chart</p>
+<script>
+
+    svg = d3.select('.step-four-part-three').append('svg').attr('width', w).attr('height', h);
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", function (d, i) {
+            return i * (w / dataset.length);
+        })
+        .attr("y", function (d, i) {
+            return h - d;
+        })
+        .attr("width", function (d, i) {
+            return (w / dataset.length) - bar_margin;
+        })
+        .attr("height", function (d) {
+            return d;
+        });
+
+    svg.selectAll("circle")
+        .data(dataset)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d, i) {
+            return i * (w / dataset.length);
+        })
+        .attr("cy", function (d, i) {
+            return h - d;
+        })
+        .attr("r", 5)
+        .attr("fill", "pink")
+        .attr("stroke", "red")
+
+</script>
 {% endblock %}
