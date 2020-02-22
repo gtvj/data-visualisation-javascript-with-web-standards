@@ -72,7 +72,6 @@
         .enter()
         .append("rect")
         .attr("x", function (d, i) {
-            console.log(i);
             return i * 22
         })
         .attr("y", 0)
@@ -300,6 +299,45 @@
         .attr("r", 5)
         .attr("fill", "pink")
         .attr("stroke", "red")
+
+</script>
+<h2>Step 5: Coloring the bars to reflect their value</h2>
+<div id="step-five"></div>
+<script>
+
+    dataset = [],
+        w = 500,
+        h = 110,
+        bar_margin = 5;
+
+    for (let i = 0; i < 10; i++) {
+        dataset.push(Math.ceil(Math.random() * h))
+    }
+
+    svg = d3.select('#step-five').append('svg').attr('width', w).attr('height', h)
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", function (d, i) {
+            return i * (w / dataset.length);
+        })
+        .attr("y", function (d, i) {
+            return h - d;
+        })
+        .attr("width", function (d, i) {
+            return (w / dataset.length) - bar_margin;
+        })
+        .attr("height", function (d) {
+            return d;
+        })
+        .attr("fill", function (d) {
+            let shade_of_green = Math.round((d / h) * 255);
+            console.log(`shade_of_green ${shade_of_green}`)
+            return `rgba(0,${shade_of_green},0,1)`
+        })
+
 
 </script>
 {% endblock %}
