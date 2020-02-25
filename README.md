@@ -12,7 +12,7 @@ Run this command: `python3 -m venv venv && source venv/bin/activate && pip insta
 2. Clone this repository
 3. Create a virtual environment with `python3 -m venv venv`
 4. From the root directory run `source venv/bin/activate` 
-5. Install dependencies with `pip install -r requirements.txt`
-6. Start the application with `flask run`
+5. Install dependencies with `pip install -r requirements.txt && npm install`
+6. Start the application with `flask run` and kick off webpack with `npm run build`
 7. See the command line for the URL to visit
 8. When finished run `deactivate` from the virtual environment
