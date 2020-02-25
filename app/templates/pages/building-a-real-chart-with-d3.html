@@ -340,4 +340,54 @@
 
 
 </script>
+<h2>Step 6: Adding labels</h2>
+<div id="step-six"></div>
+<script>
+
+    dataset = [],
+        w = 500,
+        h = 110,
+        bar_margin = 5;
+
+    for (let i = 0; i < 10; i++) {
+        dataset.push(Math.ceil(Math.random() * h))
+    }
+
+    svg = d3.select('#step-six').append('svg').attr('width', w).attr('height', h);
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", function (d, i) {
+            return i * (w / dataset.length);
+        })
+        .attr("y", function (d, i) {
+            return h - d;
+        })
+        .attr("width", function (d, i) {
+            return (w / dataset.length) - bar_margin;
+        })
+        .attr("height", function (d) {
+            return d;
+        })
+        .attr("fill", function (d) {
+            let shade_of_green = Math.round((d / h) * 255);
+            return `rgba(0,${shade_of_green},0,1)`
+        })
+        .append('title')
+        .text(d => `Value is ${d}`);
+
+    svg.selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .attr('x', (d, i) => {
+            return i * (w / dataset.length) + 15;
+        })
+        .attr('y', (d) => {
+            return h - d - 5
+        })
+        .text(d => d)
+</script>
 {% endblock %}
