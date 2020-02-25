@@ -1,0 +1,235 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<h1>D3 scales</h1>
+<p>In the real world, it's unlikely our data values will match the pixels available in our display. Here's an
+    example where the numbers are too big for the visualisation:</p>
+<div id="example-one"></div>
+<script>
+    dataset = [50, 100, 150, 200, 700],
+        w = 500,
+        h = 110,
+        bar_margin = 5;
+
+    svg = d3.select('#example-one').append('svg').attr('width', w).attr('height', h);
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", function (d, i) {
+            return i * (w / dataset.length);
+        })
+        .attr("y", function (d, i) {
+            return h - d;
+        })
+        .attr("width", function (d, i) {
+            return (w / dataset.length) - bar_margin;
+        })
+        .attr("height", function (d) {
+            return d;
+        })
+        .attr("fill", function (d) {
+            let shade_of_green = Math.round((d / h) * 255);
+            return `rgba(0,${shade_of_green},0,1)`
+        })
+        .append('title')
+        .text(d => `Value is ${d}`);
+
+    svg.selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .attr('x', (d, i) => {
+            return i * (w / dataset.length) + 15;
+        })
+        .attr('y', (d) => {
+            return h - d - 5
+        })
+        .text(d => d)
+</script>
+<p>...and here's one where the values are too small</p>
+<div id="example-two"></div>
+<script>
+    dataset = [1, 2, 3, 4],
+        w = 500,
+        h = 110,
+        bar_margin = 5;
+
+    svg = d3.select('#example-two').append('svg').attr('width', w).attr('height', h);
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", function (d, i) {
+            return i * (w / dataset.length);
+        })
+        .attr("y", function (d, i) {
+            return h - d;
+        })
+        .attr("width", function (d, i) {
+            return (w / dataset.length) - bar_margin;
+        })
+        .attr("height", function (d) {
+            return d;
+        })
+        .attr("fill", function (d) {
+            let shade_of_green = Math.round((d / h) * 255);
+            return `rgba(0,${shade_of_green},0,1)`
+        })
+        .append('title')
+        .text(d => `Value is ${d}`);
+
+    svg.selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .attr('x', (d, i) => {
+            return i * (w / dataset.length) + 15;
+        })
+        .attr('y', (d) => {
+            return h - d - 5
+        })
+        .text(d => d)
+</script>
+<p>D3 Scales are <strong>functions</strong> that provide a way to translate the real values into values that are useful
+    for the visualisation. There are several types of scales provided by D3 (including logarithmic, square root etc.)
+    but we'll be focussing only on <strong>linear scales</strong></p>
+<h3>The <em>input <strong>domain</strong></em> and the <em>output <strong>range</strong></em></h3>
+<p>The <strong>input domain</strong> is the range of possible input data values. Here are a few examples:</p>
+<ul>
+    <li>Dates of records in TNA, 974 - 2,100</li>
+    <li>Price of guitars currently on sale on GuitarGuitar.co.uk, 65 - 15,769</li>
+    <li>Countries by population, 799 - 1,433,783,686</li>
+</ul>
+<p>The <strong>output range</strong> is the range of possible output values (which we commonly use to map to pixel
+    values)</p>
+<h4>An example</h4>
+<p>Given an <strong>input domain</strong> of 7 to 13 and an <strong>output range</strong> of 0 to 400:</p>
+<ul>
+    <li>7 in the input domain equates to 0 in the output domain</li>
+    <li>10 in the input domain equates to 200 in the output domain</li>
+    <li>13 in the input domain equates to 400 in the output domain</li>
+</ul>
+<h3>Let's make a scale</h3>
+<p>See the page source console for output</p>
+<script>
+    let scale = d3.scaleLinear();
+    scale.domain([7, 13]); // Set the bounds for the input domain
+    scale.range([0, 400]); // Set the bounds for the output range
+
+    console.group();
+    for (let i = 7; i <= 13; i++) {
+        console.log(`${i} in the input domain equates to ${scale(i)} in the output domain`)
+    }
+    console.groupEnd();
+</script>
+<h3>Let's fix our bar charts using scale</h3>
+<p>This is the first bar chart, where the values were too big to be shown, but fixed by using scales.</p>
+<div id="example-three"></div>
+<script>
+    {
+
+        let dataset = [50, 100, 150, 200, 700],
+            w = 500,
+            h = 110,
+            bar_margin = 5;
+
+        svg = d3.select('#example-three').append('svg').attr('width', w).attr('height', h);
+
+        let scale = d3.scaleLinear();
+        scale.domain([0, Math.max.apply(Math, dataset)]);
+        scale.range([0, h]);
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", function (d, i) {
+                return i * (w / dataset.length);
+            })
+            .attr("y", function (d, i) {
+                return h - scale(d);
+            })
+            .attr("width", function (d, i) {
+                return (w / dataset.length) - bar_margin;
+            })
+            .attr("height", function (d) {
+                return scale(d);
+            })
+            .attr("fill", function (d) {
+                let shade_of_green = Math.round((d / h) * 255);
+                return `rgba(0,${shade_of_green},0,1)`
+            })
+            .append('title')
+            .text(d => `Value is ${d}`);
+
+        svg.selectAll("text")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .attr('x', (d, i) => {
+                return i * (w / dataset.length) + 15;
+            })
+            .attr('y', (d) => {
+                return h - scale(d) - 5
+            })
+            .text(d => d)
+    }
+</script>
+<p>...and this is the second bar chart, where the values were too small to perceive how they relate to each other, but fixed by using scales.</p>
+<div id="example-four"></div>
+<script>
+    {
+
+        let dataset = [1,2,3,4],
+            w = 500,
+            h = 110,
+            bar_margin = 5;
+
+        svg = d3.select('#example-four').append('svg').attr('width', w).attr('height', h);
+
+        let scale = d3.scaleLinear();
+        scale.domain([0, Math.max.apply(Math, dataset)]);
+        scale.range([0, h]);
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", function (d, i) {
+                return i * (w / dataset.length);
+            })
+            .attr("y", function (d, i) {
+                return h - scale(d);
+            })
+            .attr("width", function (d, i) {
+                return (w / dataset.length) - bar_margin;
+            })
+            .attr("height", function (d) {
+                return scale(d);
+            })
+            .attr("fill", function (d) {
+                let shade_of_green = Math.round((d / h) * 255);
+                return `rgba(0,${shade_of_green},0,1)`
+            })
+            .append('title')
+            .text(d => `Value is ${d}`);
+
+        svg.selectAll("text")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .attr('x', (d, i) => {
+                return i * (w / dataset.length) + 15;
+            })
+            .attr('y', (d) => {
+                return h - scale(d) - 5
+            })
+            .text(d => d)
+    }
+</script>
+{% endblock %}

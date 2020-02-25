@@ -126,5 +126,12 @@
     "technologies": [
       "d3"
     ]
+  },
+  {
+    "title": "D3 scales",
+    "route": "/d3-scales",
+    "technologies": [
+      "d3"
+    ]
   }
 ]
