@@ -127,6 +127,45 @@
     }
     console.groupEnd();
 </script>
+<h3>Demonstrating the relationship with a meter and range</h3>
+<p>Here's an example demonstrating the relationship</p>
+<div class="scales_example">
+    <label for="input_domain">This range has min and max attributes that correspond to the <strong>input domain</strong></label>
+    <input type="range" id="input_domain">
+    <p>This meter has min and max attributes that correspond to the <strong>output range</strong></p>
+    <meter id="output_range"></meter>
+    <p><strong id="input_value"></strong> in the input domain corresponds to <strong id="output_value"></strong></p>
+</div>
+<script>
+
+    {
+
+        let domain = [10, 780];
+        range = [1, 4000000];
+
+        let scale = d3.scaleLinear();
+        scale.domain(domain);
+        scale.range(range);
+
+        let input_domain = document.getElementById('input_domain');
+        input_domain.setAttribute('min', domain[0]);
+        input_domain.setAttribute('max', domain[1]);
+        input_domain.setAttribute('value', domain[0]);
+
+        let output_range = document.getElementById('output_range');
+        output_range.setAttribute('min', range[0]);
+        output_range.setAttribute('max', range[1]);
+
+
+        input_domain.addEventListener('change', function (e) {
+            let scaled = scale(e.target.value);
+            output_range.setAttribute('value', scaled);
+            document.getElementById('input_value').textContent = e.target.value;
+            document.getElementById('output_value').textContent = scaled;
+        });
+
+    }
+</script>
 <h3>Let's fix our bar charts using scale</h3>
 <p>This is the first bar chart, where the values were too big to be shown, but fixed by using scales.</p>
 <div id="example-three"></div>
@@ -180,12 +219,13 @@
             .text(d => d)
     }
 </script>
-<p>...and this is the second bar chart, where the values were too small to perceive how they relate to each other, but fixed by using scales.</p>
+<p>...and this is the second bar chart, where the values were too small to perceive how they relate to each other, but
+    fixed by using scales.</p>
 <div id="example-four"></div>
 <script>
     {
 
-        let dataset = [1,2,3,4],
+        let dataset = [1, 2, 3, 4],
             w = 500,
             h = 110,
             bar_margin = 5;
