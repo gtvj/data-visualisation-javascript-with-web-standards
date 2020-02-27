@@ -1,3 +1,12 @@
 .page-container {
   margin-top: 10vh;
 }
+
+.scales_example meter {
+  width: 100%;
+  height: 50px;
+}
+
+h2, h3, h4 {
+  margin-top: 3em;
+}

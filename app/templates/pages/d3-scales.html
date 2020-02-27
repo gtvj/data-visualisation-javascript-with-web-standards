@@ -6,6 +6,11 @@
 <h1>D3 scales</h1>
 <p>In the real world, it's unlikely our data values will match the pixels available in our display. Here's an
     example where the numbers are too big for the visualisation:</p>
+<pre>
+    <code>
+        dataset = [50, 100, 150, 200, 700],
+    </code>
+</pre>
 <div id="example-one"></div>
 <script>
     dataset = [50, 100, 150, 200, 700],
@@ -51,6 +56,11 @@
         .text(d => d)
 </script>
 <p>...and here's one where the values are too small</p>
+<pre>
+    <code>
+        dataset = [1, 2, 3, 4]
+    </code>
+</pre>
 <div id="example-two"></div>
 <script>
     dataset = [1, 2, 3, 4],
@@ -116,6 +126,21 @@
 </ul>
 <h3>Let's make a scale</h3>
 <p>See the page source console for output</p>
+<pre>
+    <code>
+        let scale = d3.scaleLinear();
+        scale.domain([7, 13]); // Set the bounds for the input domain
+        scale.range([0, 400]); // Set the bounds for the output range
+
+        console.group();
+
+        for (let i = 7; i <= 13; i++) {
+            console.log(`${i} in the input domain equates to ${scale(i)} in the output domain`)
+        }
+
+        console.groupEnd();
+    </code>
+</pre>
 <script>
     let scale = d3.scaleLinear();
     scale.domain([7, 13]); // Set the bounds for the input domain
@@ -272,4 +297,80 @@
             .text(d => d)
     }
 </script>
+<h3>Introducing D3 .min() and .max()</h3>
+<p>In most cases you will need to set the input domain values dynamically in order to reflect the data you're dealing
+    with.</p>
+<p>In our example the data structure is a simple array so we can use <code>Math.max</code>, but what do you do if your
+    data has a more complex structure?</p>
+<pre>
+    <code class="language-javascript">
+        let dataset = [
+            {
+                "count": "1000",
+                "name": "grapes"
+            },
+            {
+                "count": "2",
+                "name": "coconuts"
+            },
+            {
+                "count": "2000",
+                "name": "bananas"
+            },
+        ]
+    </code>
+</pre>
+<p>To help with this, D3 provides:</p>
+<ul>
+    <li><a href="https://github.com/d3/d3-array#min">Min</a></li>
+    <li><a href="https://github.com/d3/d3-array#max">Max</a></li>
+</ul>
+<p>Both of which can accept simple data types or, in their two-argument version, a function that can be used to identify the values to return.</p>
+<p>Here's a few examples:</p>
+<pre>
+    <code class="javascript">
+        // Simple array
+        let simple_array = [3, 2, 1, 1, 6, 2, 4]
+
+        d3.min(simple_array)
+
+        // Array of objects
+        let flights = [
+            { airline: "Icelandair", price: 1621, stops: 3 },
+            { airline: "Multiple airlines", price: 1381, stops: 2 },
+            { airline: "Air France", price: 1948, stops: 0 },
+            { airline: "WestJet", price: 1711, stops: 1 },
+            { airline: "Air France", price: 1951, stops: 1 },
+            { airline: "French Bee", price: 1780, stops: 1 }
+        ]
+
+        d3.min(flights, function(flight) {
+            return item.price;
+        })
+    </code>
+</pre>
+<h4>Other useful examples of min() and max()</h4>
+<pre>
+    <code class="javascript">
+        // Shortest string
+        d3.min(["Driven", "Data", "Documents"]) // "Data"
+
+        // Earliest date
+        d3.min([new Date(), new Date("2018"), new Date("2011-03-09")])
+    </code>
+</pre>
+<h4>Be careful with conversions</h4>
+<pre>
+    <code class="javascript">
+        d3.min(["2", "3", "10"]) // "10" - because it's the lowest string
+    </code>
+</pre>
+<p>You can avoid this by coercing the type before passing to <code>min()</code></p>
+<pre>
+    <code class="javascript">
+        const strings = ["2", "3", "10", "N/A"];
+        const numbers = strings.map(s => +s); // Unary plus
+        return d3.min(numbers);
+    </code>
+</pre>
 {% endblock %}
