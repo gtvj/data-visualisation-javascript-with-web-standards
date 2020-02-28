@@ -2,8 +2,8 @@
 
 {% block content %}
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<h1>D3 scales - building a Gantt chart</h1>
-<p>Here's our data.</p>
+<h1>D3 scales - building a Gantt style chart using d3.scaleTime()</h1>
+<p>Our data for this exercise is an array of objects, each of which represents a time period. Each time period is consecutive.</p>
 <pre>
     <code class="javascript">
     let dataset = [
@@ -23,6 +23,11 @@
             end_date: "1939"
         },
         {
+            name: "Early 20th Century",
+            start_date: "1901",
+            end_date: "1918"
+        },
+        {
             name: "Early modern",
             start_date: "1485",
             end_date: "1750"
@@ -36,74 +41,91 @@
             name: "Empire and Industry",
             start_date: "1750",
             end_date: "1850"
+        },
+        {
+            name: "Medieval",
+            start_date: "974",
+            end_date: "1485"
         }
-
-    ]
+    ];
     </code>
 </pre>
 <h2>A look at d3.scaleTime()</h2>
+<p><code>d3.scaleTime()</code> works a lot like <code>d3.scaleLinear()</code> in that it allows you to map values <em>from</em> an <strong>input domain</strong> <em>to</em> an <strong>output range</strong>. The difference is that you use JavaScript Date objects for the input range (and the output range, if you want to).</p>
+<h3>An example: Date for input; Integer range for output.</h3>
+<p>This example uses <code>Date</code> objects for the input domain, and maps these to an output range represented by integers.</p>
 <pre>
     <code class="javascript">
 
-
-    let moon_landing = new Date(1969, 7, 20),
+    const moon_landing = new Date(1969, 7, 20),
         start_of_20th_century = new Date(1900, 1, 1),
         end_of_20th_century = new Date(1999, 12, 31);
 
-    let scaleXCentury = d3.scaleTime()
+    const scaleXCentury = d3.scaleTime()
         .domain([start_of_20th_century, end_of_20th_century]) // Bounds for input domain
         .range([0, 100]); // Bounds for output range
 
-    let position_of_moonlanding = scaleXCentury(moon_landing); // 69.55057999981746
+    const position_of_moonlanding = scaleXCentury(moon_landing); // 69.55057999981746
 
     console.log(`The position of the moon landing is ${position_of_moonlanding}`);
 
-    let batte_of_hastings = new Date(1066, 10, 14),
+    const batte_of_hastings = new Date(1066, 10, 14),
         start_of_millenium = new Date(1000, 1, 1),
         end_of_millenium = new Date(1999, 12, 31);
 
-    let scaleXMillenium = d3.scaleTime()
+    const scaleXMillenium = d3.scaleTime()
         .domain([start_of_millenium, end_of_millenium])
         .range([0, 1000]); // Note: our range has changed
 
-    let position_of_boh = scaleXMillenium(batte_of_hastings);
+    const position_of_boh = scaleXMillenium(batte_of_hastings);
 
     console.log(`The position of boh is ${position_of_boh}`); // 66.78330198416936
 
-    // Here's an interesting thing
-    let years_between_boh_and_moon_landing = scaleXMillenium(moon_landing) - scaleXMillenium(batte_of_hastings);
-    console.log(`The space between our events is ${years_between_boh_and_moon_landing}`); // 902.7681950638984
+    </code>
+</pre>
+<h2>Performing calculations</h2>
+<p>What about if you need to represent the duration of a thing? As it turns out, you can perform this kind of calculation quite easily.</p>
+<pre>
+    <code class="javascript">
+    // Note: this code uses scaleXMillenium() which was instantiated above
+    const space_between_boh_and_moon_landing = scaleXMillenium(moon_landing) - scaleXMillenium(batte_of_hastings);
+    console.log(`The space between our events is ${space_between_boh_and_moon_landing}`); // 902.7681950638984
+
+    // Note: this is only 902.x because our output range is 1000. If our output range was the number of pixels
+    //       available instead, the values would be different but - crucuially - the representation of their
+    //       relationship to each other would remain the same
+
+    // Which we can confirm with
+    const time_difference = Math.abs(moon_landing - batte_of_hastings);
+    const difference_in_years = time_difference / (1000 * 60 * 60 * 24 * 365.2422);
+    console.log(`The difference in years between our events is ${difference_in_years}`); // 902.7459502623774 (Close enough)
     </code>
 </pre>
 <script>
 
-    let moon_landing = new Date(1969, 7, 20),
+    const moon_landing = new Date(1969, 7, 20),
         start_of_20th_century = new Date(1900, 1, 1),
         end_of_20th_century = new Date(1999, 12, 31);
 
-    let scaleXCentury = d3.scaleTime()
+    const scaleXCentury = d3.scaleTime()
         .domain([start_of_20th_century, end_of_20th_century]) // Bounds for input domain
         .range([0, 100]); // Bounds for output range
 
-    let position_of_moonlanding = scaleXCentury(moon_landing); // 69.55057999981746
+    const position_of_moonlanding = scaleXCentury(moon_landing); // 69.55057999981746
 
     console.log(`The position of the moon landing is ${position_of_moonlanding}`);
 
-    let batte_of_hastings = new Date(1066, 10, 14),
+    const batte_of_hastings = new Date(1066, 10, 14),
         start_of_millenium = new Date(1000, 1, 1),
         end_of_millenium = new Date(1999, 12, 31);
 
-    let scaleXMillenium = d3.scaleTime()
+    const scaleXMillenium = d3.scaleTime()
         .domain([start_of_millenium, end_of_millenium])
         .range([0, 1000]); // Note: our range has changed
 
-    let position_of_boh = scaleXMillenium(batte_of_hastings);
+    const position_of_boh = scaleXMillenium(batte_of_hastings);
 
     console.log(`The position of boh is ${position_of_boh}`); // 66.78330198416936
-
-    // Here's an interesting thing
-    let years_between_boh_and_moon_landing = scaleXMillenium(moon_landing) - scaleXMillenium(batte_of_hastings);
-    console.log(`The space between our events is ${years_between_boh_and_moon_landing}`); // 902.7681950638984
 
 </script>
 
