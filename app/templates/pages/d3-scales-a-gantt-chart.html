@@ -1,0 +1,204 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<h1>D3 scales - building a Gantt chart</h1>
+<p>Here's our data.</p>
+<pre>
+    <code class="javascript">
+    let dataset = [
+        {
+            name: "Postwar",
+            start_date: "1945",
+            end_date: "2020"
+        },
+        {
+            name: "Second world war",
+            start_date: "1939",
+            end_date: "1945"
+        },
+        {
+            name: "Interwar",
+            start_date: "1918",
+            end_date: "1939"
+        },
+        {
+            name: "Early modern",
+            start_date: "1485",
+            end_date: "1750"
+        },
+        {
+            name: "Victorians",
+            start_date: "1850",
+            end_date: "1901"
+        },
+        {
+            name: "Empire and Industry",
+            start_date: "1750",
+            end_date: "1850"
+        }
+
+    ]
+    </code>
+</pre>
+<h2>A look at d3.scaleTime()</h2>
+<pre>
+    <code class="javascript">
+
+
+    let moon_landing = new Date(1969, 7, 20),
+        start_of_20th_century = new Date(1900, 1, 1),
+        end_of_20th_century = new Date(1999, 12, 31);
+
+    let scaleXCentury = d3.scaleTime()
+        .domain([start_of_20th_century, end_of_20th_century]) // Bounds for input domain
+        .range([0, 100]); // Bounds for output range
+
+    let position_of_moonlanding = scaleXCentury(moon_landing); // 69.55057999981746
+
+    console.log(`The position of the moon landing is ${position_of_moonlanding}`);
+
+    let batte_of_hastings = new Date(1066, 10, 14),
+        start_of_millenium = new Date(1000, 1, 1),
+        end_of_millenium = new Date(1999, 12, 31);
+
+    let scaleXMillenium = d3.scaleTime()
+        .domain([start_of_millenium, end_of_millenium])
+        .range([0, 1000]); // Note: our range has changed
+
+    let position_of_boh = scaleXMillenium(batte_of_hastings);
+
+    console.log(`The position of boh is ${position_of_boh}`); // 66.78330198416936
+
+    // Here's an interesting thing
+    let years_between_boh_and_moon_landing = scaleXMillenium(moon_landing) - scaleXMillenium(batte_of_hastings);
+    console.log(`The space between our events is ${years_between_boh_and_moon_landing}`); // 902.7681950638984
+    </code>
+</pre>
+<script>
+
+    let moon_landing = new Date(1969, 7, 20),
+        start_of_20th_century = new Date(1900, 1, 1),
+        end_of_20th_century = new Date(1999, 12, 31);
+
+    let scaleXCentury = d3.scaleTime()
+        .domain([start_of_20th_century, end_of_20th_century]) // Bounds for input domain
+        .range([0, 100]); // Bounds for output range
+
+    let position_of_moonlanding = scaleXCentury(moon_landing); // 69.55057999981746
+
+    console.log(`The position of the moon landing is ${position_of_moonlanding}`);
+
+    let batte_of_hastings = new Date(1066, 10, 14),
+        start_of_millenium = new Date(1000, 1, 1),
+        end_of_millenium = new Date(1999, 12, 31);
+
+    let scaleXMillenium = d3.scaleTime()
+        .domain([start_of_millenium, end_of_millenium])
+        .range([0, 1000]); // Note: our range has changed
+
+    let position_of_boh = scaleXMillenium(batte_of_hastings);
+
+    console.log(`The position of boh is ${position_of_boh}`); // 66.78330198416936
+
+    // Here's an interesting thing
+    let years_between_boh_and_moon_landing = scaleXMillenium(moon_landing) - scaleXMillenium(batte_of_hastings);
+    console.log(`The space between our events is ${years_between_boh_and_moon_landing}`); // 902.7681950638984
+
+</script>
+
+<h2>Plotting our data to the SVG</h2>
+<div id="example-one"></div>
+
+<script>
+
+    let w = 700,
+        h = 200;
+
+    let dataset = [
+        {
+            name: "Postwar",
+            start_date: "1945",
+            end_date: "2020"
+        },
+        {
+            name: "Second world war",
+            start_date: "1939",
+            end_date: "1945"
+        },
+        {
+            name: "Interwar",
+            start_date: "1918",
+            end_date: "1939"
+        },
+        {
+            name: "Early 20th Century",
+            start_date: "1901",
+            end_date: "1918"
+        },
+        {
+            name: "Early modern",
+            start_date: "1485",
+            end_date: "1750"
+        },
+        {
+            name: "Victorians",
+            start_date: "1850",
+            end_date: "1901"
+        },
+        {
+            name: "Empire and Industry",
+            start_date: "1750",
+            end_date: "1850"
+        },
+        {
+            name: "Medieval",
+            start_date: "974",
+            end_date: "1485"
+        }
+    ];
+
+    // Sorting our data so that the earliest periods appear first
+    dataset = dataset.sort(function (a, b) {
+        if (+a.start_date < +b.start_date) {
+            return -1;
+        }
+        if (+a.start_date > +b.start_date) {
+            return 1;
+        }
+        return 0;
+    });
+
+    dataset = dataset.map(function (item) {
+        return {
+            name: item.name,
+            start_date: d3.timeParse("%Y")(item.start_date),
+            end_date: d3.timeParse("%Y")(item.end_date)
+        }
+    });
+
+    xScale = d3.scaleTime()
+        .domain([
+            d3.min(dataset, function (d) {
+                return d.start_date;
+            }),
+            d3.max(dataset, function (d) {
+                return d.start_date;
+            })
+        ])
+        .range([0, w - 50]);
+
+    let svg = d3.select('#example-one').append('svg').attr('width', w).attr('height', h);
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("y", (d, i) => i * (h / dataset.length))
+        .attr("x", d => xScale(d.start_date))
+        .attr("width", d => xScale(d.end_date) - xScale(d.start_date))
+        .attr("fill", "orange")
+        .attr("height", (h / dataset.length));
+
+</script>
+{% endblock %}

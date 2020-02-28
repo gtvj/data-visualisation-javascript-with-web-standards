@@ -133,5 +133,12 @@
     "technologies": [
       "d3"
     ]
+  },
+  {
+    "title": "D3 scales - a Gantt chart",
+    "route": "/d3-scales-a-gantt-chart",
+    "technologies": [
+      "d3"
+    ]
   }
 ]
