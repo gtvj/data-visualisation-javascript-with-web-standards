@@ -135,7 +135,14 @@
     ]
   },
   {
-    "title": "D3 scales - a Gantt chart",
+    "title": "D3 scales and time",
+    "route": "/d3-scales-and-time",
+    "technologies": [
+      "d3"
+    ]
+  },
+  {
+    "title": "Using D3 scaleTime() to make a Gantt chart",
     "route": "/d3-scales-a-gantt-chart",
     "technologies": [
       "d3"
