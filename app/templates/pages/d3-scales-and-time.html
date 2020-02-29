@@ -8,6 +8,56 @@
 </style>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <h1>D3 scales - using d3.scaleTime()</h1>
+<h2>Before we start - a quick review of D3 scales in general</h2>
+<p>Remember what D3 scales are:</p>
+<blockquote>Scales are functions that map from an input domain to an output range. <cite><a href="https://github.com/d3/d3/wiki/Quantitative-Scales/fdf9b19f74182960dbd204dc81779d78ffdbd18d">Mike Bostock</a></cite></blockquote>
+<p>Typically, we use scales to ensure that values from an input domain (about which there is uncertainty) can be drawn within the constraints of an output range (i.e. the dimensions of our SVG).</p>
+<p>But, because, scales simply represent relationships we can use them to represent any relationship. Here's an example:</p>
+<h3>Creating a Celsius to Fahrenheit converter</h3>
+<div class="scales_example">
+    <label for="input_domain">This input has min and max attributes that correspond to an <strong>input domain</strong> of -50 to 1000</label>
+    <input type="range" id="input_domain">
+    <p>This meter has min and max attributes that correspond to the <strong>output range</strong> of -58 to 1832</p>
+    <meter id="output_range"></meter>
+    <p><strong id="input_value"></strong>℃ is equivalent to <strong id="output_value"></strong>℉</p>
+</div>
+<div class="callout primary">
+<h4>What's interesting here is that all we've told the scale is:</h4>
+<ul>
+    <li>-50 in the input domain is equivalent to -58 in the output range</li>
+    <li>1000 in the input domain is equivalent to 1832 in the output range</li>
+</ul>
+</div>
+<script>
+    {
+
+        let domain = [-50, 1000];
+        range = [-58, 1832];
+
+        let scale = d3.scaleLinear();
+        scale.domain(domain);
+        scale.range(range);
+
+        let input_domain = document.getElementById('input_domain');
+        input_domain.setAttribute('min', domain[0]);
+        input_domain.setAttribute('max', domain[1]);
+        input_domain.setAttribute('value', domain[0]);
+
+        let output_range = document.getElementById('output_range');
+        output_range.setAttribute('min', range[0]);
+        output_range.setAttribute('max', range[1]);
+
+
+        input_domain.addEventListener('change', function (e) {
+            let scaled = scale(e.target.value);
+            output_range.setAttribute('value', scaled);
+            document.getElementById('input_value').textContent = e.target.value;
+            document.getElementById('output_value').textContent = scaled;
+        });
+
+    }
+</script>
+
 <h2>A look at d3.scaleTime()</h2>
 <p><code>d3.scaleTime()</code> works a lot like <code>d3.scaleLinear()</code> in that it allows you to map values <em>from</em>
     an <strong>input domain</strong> <em>to</em> an <strong>output range</strong>. The difference is that you use
