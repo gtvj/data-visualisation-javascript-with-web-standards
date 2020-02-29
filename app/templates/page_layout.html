@@ -6,13 +6,7 @@
     <div class="grid-container grid-margin-auto">
         <div class="grid-x">
             <div class="cell medium-4">
-                <ul class="vertical menu">
-                    {% for page in pages %}
-                    <li {{
-                    " class=is-active" if request.path == ('/pages' + page.route) }}><a
-                        href="{{'/pages' + page.route}}">{{ page.title }}</a></li>
-                    {% endfor %}
-                </ul>
+                {% include "includes/menu.html" %}
             </div>
             <div class="cell medium-8" style="padding: 2em">
                 {% block content %}

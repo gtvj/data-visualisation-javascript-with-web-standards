@@ -14,4 +14,5 @@ def home():
 def page(page):
     with open('app/data/pages.json') as pages:
         pages = json.load(pages)
+
     return render_template("pages/{}.html".format(page), pages=pages)

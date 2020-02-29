@@ -53,8 +53,64 @@
     ];
     </code>
 </pre>
-<h3>Part 1: Just drawing the bars</h3>
+<h3>Preparation: Cleaning up the data</h3>
+<p>There's not a lot to do here, but let's sort our objects by date and parse the four digit dates</p>
+<pre>
+    <code>
+    // Sorting our data so that the earliest periods appear first
+    dataset = dataset.sort(function (a, b) {
+        if (+a.start_date < +b.start_date) {
+            return -1;
+        }
+        if (+a.start_date > +b.start_date) {
+            return 1;
+        }
+        return 0;
+    });
+
+    dataset = dataset.map(function (item) {
+        return {
+            name: item.name,
+            start_date: d3.timeParse("%Y")(item.start_date),
+            end_date: d3.timeParse("%Y")(item.end_date)
+        }
+    });
+    </code>
+</pre>
+<h3>Setting our input domain and output range</h3>\
+<pre>
+    <code>
+    xScale = d3.scaleTime()
+        .domain([
+            d3.min(dataset, function (d) {
+                return d.start_date;
+            }),
+            d3.max(dataset, function (d) {
+                return d.start_date;
+            })
+        ])
+        .range([0, w * 0.75]);
+    </code>
+</pre>
+<h3>Drawing the bars</h3>
 <p>Let's draw some <code>rect</code> elements which correspond to our data.</p>
+<h4>The code</h4>
+<pre>
+    <code>
+    let svg = d3.select('#part-one').append('svg').attr('width', w).attr('height', h);
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("y", (d, i) => i * (h / dataset.length))
+        .attr("x", d => xScale(d.start_date))
+        .attr("width", d => xScale(d.end_date) - xScale(d.start_date))
+        .attr("fill", "#80FFCB")
+        .attr("height", (h / dataset.length));
+    </code>
+</pre>
+<h4>The result</h4>
 <div id="part-one"></div>
 <script>
 
@@ -145,6 +201,23 @@
         .attr("width", d => xScale(d.end_date) - xScale(d.start_date))
         .attr("fill", "#80FFCB")
         .attr("height", (h / dataset.length));
+</script>
+
+<h3>Adding some labels</h3>
+<h4>The code</h4>
+<pre>
+    <code>
+    let svg = d3.select('#example-one').append('svg').attr('width', w).attr('height', h);
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("y", (d, i) => i * (h / dataset.length))
+        .attr("x", d => xScale(d.start_date))
+        .attr("width", d => xScale(d.end_date) - xScale(d.start_date))
+        .attr("fill", "#80FFCB")
+        .attr("height", (h / dataset.length));
 
     svg.selectAll("text")
         .data(dataset)
@@ -153,9 +226,9 @@
         .text(d => d.name)
         .attr("y", (d, i) => (i + 0.7) * (h / dataset.length))
         .attr("x", d => xScale(d.start_date) + 4)
-</script>
-
-<h3>...</h3>
+    </code>
+</pre>
+<h4>The result</h4>
 <div id="example-one"></div>
 
 <script>

@@ -2,11 +2,54 @@
   margin-top: 10vh;
 }
 
-.scales_example meter {
+.grid-container {
+  min-width: 95%;
+}
+
+meter {
   width: 100%;
   height: 50px;
 }
 
+body {
+  font-family: 'Open Sans';
+  color: #5b5b5b;
+}
+
 h1, h2, h3, h4 {
-  font-family: 'Chivo'
+  font-family: 'Raleway'
+}
+
+h2, h3, h4 {
+  color: #F20732;
+}
+
+svg {
+  outline: 1px solid #CACACA;
+}
+
+a {
+  color: #056CF2;
+}
+
+a:visited {
+  color: #056CF2;
+}
+
+a:hover{
+  color: #056CF2;
+  text-decoration: underline;
+}
+
+.menu .is-active > a {
+  background: #F20732;
+}
+
+meter::-webkit-meter-bar {
+  background: none; /* Required to get rid of the default background property */
+  background-color: #EFEFEF;
+}
+
+meter::-webkit-meter-optimum-value {
+  background: #F20732;
 }
