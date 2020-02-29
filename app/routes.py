@@ -12,4 +12,6 @@ def home():
 # All requests for pages go to this route
 @app.route('/pages/<page>')
 def page(page):
-    return render_template("pages/{}.html".format(page))
+    with open('app/data/pages.json') as pages:
+        pages = json.load(pages)
+    return render_template("pages/{}.html".format(page), pages=pages)

@@ -4,11 +4,23 @@
 <body>
 <div class="page-container">
     <div class="grid-container grid-margin-auto">
-        {% block content %}
-        {% endblock %}
+        <div class="grid-x">
+            <div class="cell medium-4">
+                <ul class="vertical menu">
+                    {% for page in pages %}
+                    <li {{
+                    " class=is-active" if request.path == ('/pages' + page.route) }}><a
+                        href="{{'/pages' + page.route}}">{{ page.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="cell medium-8" style="padding: 2em">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
     </div>
-</div>
-{% block scripts %}
-{% endblock %}
+    {% block scripts %}
+    {% endblock %}
 </body>
 </html>
