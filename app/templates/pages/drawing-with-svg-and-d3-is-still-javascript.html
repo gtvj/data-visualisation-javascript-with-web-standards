@@ -3,9 +3,42 @@
 {% block content %}
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <h1>It is still JavaScript</h1>
-<div class="visualisation">
+<h2>The code</h2>
+<pre>
+    <code>
+    const mountains = [
+        {name: 'Everest', height: 300},
+        {name: 'Snowdon', height: 150},
+        {name: 'Ben Nevis', height: 200},
+        {name: 'Giewont', height: 220}
+    ];
 
-</div>
+    const svg = d3.select('.visualisation').append('svg').attr('width', 500).attr('height', 300);
+
+    let generate_an_svg_with_d3 = function (y_position, line_length, message) {
+        const stick = svg.append('g').attr('transform', `translate(50, ${y_position})`);
+
+        stick.append('line')
+            .attr('x2', line_length)
+            .style('stroke', 'black');
+
+        stick.append('circle')
+            .attr('cx', line_length)
+            .attr('r', 3);
+
+        stick.append('text')
+            .attr('y', -10)
+            .text(message)
+    };
+
+    mountains.forEach((mountain, index) => {
+        let position = (index + 1) * 60;
+        generate_an_svg_with_d3(position, mountain.height, mountain.name)
+    })
+    </code>
+</pre>
+<h2>The result</h2>
+<div class="visualisation"></div>
 <script>
 
     const mountains = [
@@ -14,7 +47,6 @@
         {name: 'Ben Nevis', height: 200},
         {name: 'Giewont', height: 220}
     ];
-
 
     const svg = d3.select('.visualisation').append('svg').attr('width', 500).attr('height', 300);
 

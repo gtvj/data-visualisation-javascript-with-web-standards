@@ -21,7 +21,79 @@
         font-size: 1em;
     }
 </style>
+<h2>The code</h2>
+<pre>
+    <code>
+    var data = {
+        "name": "PROB",
+        "children": [
+            {
+                "name": "PROB 1",
+                "value": 5,
+                "href": '/scopeviewer/prob_1'
+            },
+            {
+                "name": "PROB 2",
+                "value": 21,
+                "href": '/scopeviewer/prob_1'
+            },
+            {
+                "name": "PROB 3",
+                "value": 14,
+                "href": '/scopeviewer/prob_1'
+            },
+            {
+                "name": "PROB 4",
+                "value": 14,
+                "href": '/scopeviewer/prob_1'
+            }
+        ]
+    };
 
+    var treemapLayout = d3.treemap()
+        .size([800, 400])
+        .paddingTop(40)
+        .paddingInner(0);
+
+    var rootNode = d3.hierarchy(data);
+
+    rootNode.sum(function (d) {
+        return d.value;
+    });
+
+    treemapLayout(rootNode);
+
+    var nodes = d3.select('svg g')
+        .selectAll('g')
+        .data(rootNode.descendants())
+        .enter()
+        .append('g')
+        .attr('transform', function (d) {
+            return 'translate(' + [d.x0, d.y0] + ')'
+        });
+
+    nodes
+        .append('a').attr('href', function (d) {
+        return d.data.href
+    })
+        .append('rect')
+        .attr('width', function (d) {
+            return d.x1 - d.x0;
+        })
+        .attr('height', function (d) {
+            return d.y1 - d.y0;
+        });
+
+    nodes
+        .append('text')
+        .attr('dx', 14)
+        .attr('dy', 24)
+        .text(function (d) {
+            return d.data.name;
+        })
+    </code>
+</pre>
+<h2>The result</h2>
 <svg width="800" height="400">
     <g></g>
 </svg>

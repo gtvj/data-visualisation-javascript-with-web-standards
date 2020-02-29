@@ -14,7 +14,21 @@
     <li>d3.json has parsed the fetched JSON into an array of objects</li>
 </ul>
 <p><strong>Take note:</strong> there will be times that you need to load data from several sources, and you can use <code>promise.all()</code> in these circumstances.</p>
+<pre>
+    <code>
+    d3.csv("/static/data/skills.csv").then(data => {
+        console.group(`Here's the CSV data`);
+        console.log(data);
+        console.groupEnd();
+    });
 
+    d3.json("/static/data/skills.json").then(data => {
+        console.group(`Here's the JSON data`);
+        console.table(data);
+        console.groupEnd();
+    });
+    </code>
+</pre>
 <script>
 
     d3.csv("/static/data/skills.csv").then(data => {

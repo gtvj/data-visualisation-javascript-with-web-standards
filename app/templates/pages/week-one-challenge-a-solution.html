@@ -6,9 +6,29 @@
 <p>For a bit of fun we had this challenge at the end of week one: Using the code we’ve looked at (especially the last
     example) use JavaScript and D3 to create a visualisation that shows 50 circles, of random size, color and position
     on the SVG. </p>
-<div class="visualisation">
+<h2>The code</h2>
+<pre>
+    <code>
+    const svg = d3.select('.visualisation').append('svg').attr('width', 500).attr('height', 300);
 
-</div>
+    let generate_a_circle = function () {
+
+        const circ = svg.append('g').attr('transform', `translate(${Math.random() * 500}, ${Math.random() * 300})`);
+
+        circ.append('circle')
+            .attr('cx', 0)
+            .attr('r', Math.random() * 100)
+            .attr('style', `fill: rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)}, ${Math.random()})`)
+
+    };
+
+    for (let i = 0; i < 50; i++) {
+        generate_a_circle()
+    }
+    </code>
+</pre>
+<h2>The result</h2>
+<div class="visualisation"></div>
 <script>
 
     const svg = d3.select('.visualisation').append('svg').attr('width', 500).attr('height', 300);
@@ -27,7 +47,6 @@
     for (let i = 0; i < 50; i++) {
         generate_a_circle()
     }
-
 
 </script>
 {% endblock %}

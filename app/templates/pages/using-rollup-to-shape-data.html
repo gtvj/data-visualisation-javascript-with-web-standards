@@ -5,6 +5,39 @@
 <h1>Getting the data in the right shape for a visualisation</h1>
 <p>In this example we're taking some 'clean' data and changing its shape so that it fits a visualisation. See the
     console for output.</p>
+<pre>
+    <code>
+    // This data is clean, but the structure isn't what we need
+    let cleanData = [
+        {name: 'React', type: 'js-framework', hype: 99},
+        {name: 'Vue', type: 'js-framework', hype: 77},
+        {name: 'Flask', type: 'python-framework', hype: 22},
+        {name: 'Laravel', type: 'php-framework', hype: 56},
+        {name: 'Symfony', type: 'php-framework', hype: 43},
+        {name: 'Django', type: 'python-framework', hype: 37},
+    ];
+
+    function prepareDataForVisualisation(data) {
+        const rolledUp = d3.rollup(
+            data,
+            function (group) {
+                return d3.sum(group, function (item) {
+                    return item.hype;
+                });
+            },
+            function (d) {
+                return d.type;
+            }
+        );
+
+        return Array.from(rolledUp, function (d) {
+            return {language: d[0], hype: d[1]};
+        });
+    }
+
+    console.log(prepareDataForVisualisation(cleanData));
+    </code>
+</pre>
 <script>
     // This data is clean, but the structure isn't what we need
     let cleanData = [

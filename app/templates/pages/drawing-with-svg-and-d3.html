@@ -4,6 +4,27 @@
 <h1>Drawing with SVG and D3</h1>
 <p>To work with DOM elements using D3 we need to turn them into D3 selection elements.</p>
 <p>D3 offers a fluent API allowing for calls to be chained.</p>
+<h2>The code</h2>
+<pre>
+    <code>
+    const svg = d3.select('.visualisation').append('svg').attr('width', 500).attr('height', 300);
+
+    const stick = svg.append('g').attr('transform', 'translate(100,100)');
+
+    stick.append('line')
+        .attr('x2', 300)
+        .style('stroke', 'black');
+
+    stick.append('circle')
+        .attr('cx', 300)
+        .attr('r', 3);
+
+    stick.append('text')
+        .attr('y', -10)
+        .text('This is a line')
+    </code>
+</pre>
+<h2>The result</h2>
 <div class="visualisation">
 
 </div>

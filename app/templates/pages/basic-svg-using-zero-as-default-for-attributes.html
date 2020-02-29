@@ -6,6 +6,24 @@
 <p>No D3 here, again.</p>
 <p>In SVG, '0' is the default for attributes. Because of this you can omit them and delegate some positioning to the group element.</p>
 <p>This example demonstrates using this identical shapes with different translations applied to the parent group.</p>
+<h2>The code</h2>
+<pre>
+    <code>
+    &#x3C;svg width=&#x22;500&#x22; height=&#x22;300&#x22;&#x3E;
+        &#x3C;g transform=&#x22;translate(100,200)&#x22;&#x3E;
+            &#x3C;line x2=&#x22;300&#x22; stroke=&#x22;black&#x22;&#x3E;&#x3C;/line&#x3E;
+            &#x3C;circle r=&#x22;3&#x22; cx=&#x22;300&#x22;&#x3E;&#x3C;/circle&#x3E;
+            &#x3C;text y=&#x22;-10&#x22;&#x3E;Here&#x27;s another line&#x3C;/text&#x3E;
+        &#x3C;/g&#x3E;
+        &#x3C;g transform=&#x22;translate(100,100)&#x22;&#x3E;
+            &#x3C;line x2=&#x22;300&#x22; stroke=&#x22;black&#x22;&#x3E;&#x3C;/line&#x3E;
+            &#x3C;circle r=&#x22;3&#x22; cx=&#x22;300&#x22;&#x3E;&#x3C;/circle&#x3E;
+            &#x3C;text y=&#x22;-10&#x22;&#x3E;Here&#x27;s a line&#x3C;/text&#x3E;
+        &#x3C;/g&#x3E;
+    &#x3C;/svg&#x3E;
+    </code>
+</pre>
+<h2>The result</h2>
 <svg width="500" height="300">
     <g transform="translate(100,200)">
         <line x2="300" stroke="black"></line>
