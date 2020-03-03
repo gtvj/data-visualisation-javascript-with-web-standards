@@ -12,12 +12,13 @@ meter {
 }
 
 body {
-  font-family: 'Open Sans';
+  font-family: 'Merriweather';
   color: #5b5b5b;
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Raleway'
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
 }
 
 h2, h3, h4 {
