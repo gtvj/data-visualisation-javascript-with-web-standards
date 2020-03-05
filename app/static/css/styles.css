@@ -25,6 +25,10 @@ h2, h3, h4 {
   color: #F20732;
 }
 
+h2, h3 {
+  margin-top: 1em;
+}
+
 svg {
   outline: 1px solid #CACACA;
 }
@@ -53,4 +57,8 @@ meter::-webkit-meter-bar {
 
 meter::-webkit-meter-optimum-value {
   background: #F20732;
+}
+
+p + pre {
+  margin-top: -1.5em;
 }

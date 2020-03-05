@@ -167,5 +167,14 @@
       "d3"
     ],
     "week": 6
+  },
+  {
+    "title": "Introducing Axes",
+    "route": "/introducing-axes",
+    "technologies": [
+      "d3"
+    ],
+    "week": 7
   }
+
 ]
