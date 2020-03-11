@@ -1,0 +1,52 @@
+<blockquote>
+    When binding data to selections, there will be either more, less, or the same number of DOM elements as there are
+    data values. When you have more data values than DOM elements in the selection, you trigger the .enter() function,
+    which allows you to define behavior to perform for every value that doesn’t have a corresponding DOM element in the
+    selection.
+    <cite>
+        D3.js in Action, Second edition
+    </cite>
+</blockquote>
+<h3>Let's look at an example</h3>
+<p>This example is very similar to what we've been using to this point.</p>
+<pre>
+    <code>
+    &lt;div id="guitars">&lt;/div&gt;
+
+    &lt;script&gt;
+        d3.select('#guitars')
+            .selectAll('.guitar')
+            .data(['Fender', 'Gretch', 'Ibanez', 'Lowden', 'Taylor'])
+            .enter()
+            .append('div')
+            .attr('style', 'border: 1px solid pink;')
+            .text(d => d)
+    &lt;/script&gt;
+    </code>
+</pre>
+
+<details>
+    <summary><strong>Quiz question:</strong> What do you expect to see?</summary>
+    <p>This is the result</p>
+
+    <div id="guitars"></div>
+
+    <script>
+        d3.select('#guitars')
+            .selectAll('.guitar')
+            .data(['Fender', 'Gretch', 'Ibanez', 'Lowden', 'Taylor'])
+            .enter()
+            .append('div')
+            .attr('style', 'border: 1px solid pink;')
+            .text(d => d)
+    </script>
+</details>
+<p>Let's step through what's going on here:</p>
+<ul>
+    <li>We begin by making an <strong>empty selection</strong></li>
+    <li>We then <strong>bind</strong> the data to our selection</li>
+    <li>We then use <code>enter()</code> to determine how to respond if there are more data elements than there are elements in the selection.</li>
+    <li>We then append a <code>&lt;div&gt;</code> for each item in the selection</li>
+    <li></li>
+    <li></li>
+</ul>

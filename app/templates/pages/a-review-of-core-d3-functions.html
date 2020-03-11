@@ -1,0 +1,30 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<div class="callout primary">
+    <p>This is <em>mostly</em> a review of material that we've already looked at but takes a much closer look at what's
+        happening.</p>
+    <p>Don't be too concerned if things still seem a bit strange - they certainly did to me while I was preparing for this.</p>
+</div>
+<h1>A review of core D3 functions</h1>
+<h2>Selection</h2>
+<p>At its core, D3 is about <strong>selecting</strong> and <strong>binding</strong>.</p>
+<blockquote>
+    Selections are groups of one or more web page elements that may be associated with a set of data
+    <cite>
+        D3.js in Action, Second edition
+    </cite>
+</blockquote>
+<p>Here's an example selection</p>
+<pre>
+    <code>
+    d3.selectAll('.guitar') // A selection
+    d3.selectAll('.guitar').data(['D18','J185','Lowden']) // A selection with bound data
+    </code>
+</pre>
+<p>The process of associating data to page elements is known as <em>data binding</em> and the visualisation process is
+    about using data to set the appearance of bound elemnts.</p>
+<h2>enter()</h2>
+{% include 'includes/week-seven/enter.html' %}
+{% endblock %}

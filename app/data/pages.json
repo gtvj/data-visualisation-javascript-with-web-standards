@@ -175,6 +175,14 @@
       "d3"
     ],
     "week": 7
+  },
+  {
+    "title": "A review of core d3 functions",
+    "route": "/a-review-of-core-d3-functions",
+    "technologies": [
+      "d3"
+    ],
+    "week": 7
   }
 
 ]
