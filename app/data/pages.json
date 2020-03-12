@@ -177,8 +177,8 @@
     "week": 7
   },
   {
-    "title": "A review of core d3 functions",
-    "route": "/a-review-of-core-d3-functions",
+    "title": "A review of selection and binding fundamentals",
+    "route": "/a-review-of-selection-and-binding-fundamentals",
     "technologies": [
       "d3"
     ],

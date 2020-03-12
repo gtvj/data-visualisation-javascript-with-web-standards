@@ -1,0 +1,50 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<div class="callout primary">
+    <p>This is <em>mostly</em> a review of material that we've already looked at but takes a much closer look at what's
+        happening.</p>
+    <p>Don't be too concerned if things still seem a bit strange - they certainly did to me while I was preparing for
+        this.</p>
+</div>
+<h1>A review of selection and binding fundamentals</h1>
+<h2>Selection and binding</h2>
+<p>At its core, D3 is about <strong>selecting</strong> and <strong>binding</strong>.</p>
+<blockquote>
+    Selections are groups of one or more web page elements that may be associated with a set of data
+    <cite>
+        D3.js in Action, Second edition
+    </cite>
+</blockquote>
+<h3>Examples</h3>
+<h4>Selection, binding and update</h4>
+<pre>
+    <code>
+  &lt;ul id="guitars"&gt;
+      &lt;li&gt;Stagg&lt;/li&gt;
+      &lt;li&gt;Eastcoast&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;script&gt;
+      let g = d3
+        .select("#guitars")
+        .selectAll("li")
+        .data(["Fender", "Gibson"])
+        .text(d => `I am from data: ${d}`)
+  &lt;/script&gt;
+    </code>
+</pre>
+<details>
+    <summary><strong>Quiz question:</strong> what do you expect to happen?</summary>
+    <p class="codepen" data-height="265" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+       data-slug-hash="XWbEdVz"
+       style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+       data-pen-title="D3 selection, binding and update ">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/XWbEdVz">
+  D3 selection, binding and update </a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+    </p>
+    <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+</details>
+{% endblock %}
