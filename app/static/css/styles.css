@@ -16,12 +16,12 @@ body {
   color: #5b5b5b;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
 }
 
-h2, h3, h4 {
+h2, h3, h4, h5 {
   color: #F20732;
 }
 
@@ -61,4 +61,19 @@ meter::-webkit-meter-optimum-value {
 
 p + pre {
   margin-top: -1.5em;
+}
+
+details {
+  padding: 1em;
+  background-color: #222;
+  margin-bottom: 1em;
+  color: #EFEFEF;
+}
+
+details div {
+  margin-top: 1em;
+}
+
+details p {
+  margin-top: 1em;
 }
