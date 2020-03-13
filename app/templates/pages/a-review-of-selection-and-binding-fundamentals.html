@@ -6,7 +6,7 @@
     <p>This is <em>mostly</em> a review of material that we've already looked at but takes a much closer look at what's
         happening.</p>
     <p>Don't be too concerned if things still seem a bit strange - they certainly did to me while I was preparing for
-        this.</p>
+        this (and I spent hours pulling this together).</p>
 </div>
 <h1>A review of selection and binding fundamentals</h1>
 <h2>Selection and binding</h2>
@@ -29,7 +29,7 @@
     <li><strong>Append</strong> / manipulate a DOM element for each item in the data</li>
 </ul>
 <details>
-    <summary>See an example of select > bind > enter > append</summary>
+    <summary>See an example of this from a previous week</summary>
     <p class="codepen" data-height="265" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
        data-slug-hash="NWqYXdO"
        style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
@@ -99,7 +99,7 @@
       let g = d3
         .select("#guitars")
         .selectAll("li")
-        .data(["Fender", "Gibson"])
+        .data(["Fender", "Gibson", "Martin"])
         .text(d => `I am from data: ${d}`)
   &lt;/script&gt;
     </code>
@@ -169,6 +169,7 @@
       &lt;li&gt;Stagg&lt;/li&gt;
       &lt;li&gt;Eastcoast&lt;/li&gt;
       &lt;li&gt;Lowden&lt;/li&gt;
+      &lt;li&gt;Taylor&lt;/li&gt;
   &lt;/ul&gt;
 
   &lt;script&gt;
@@ -196,7 +197,7 @@
         for your visualisation.</p>
     <p>To address this we use the <code>exit()</code> selection.</p>
 </details>
-<h5>The Exit selection deals with circumstances where there are more DOM nodes than DOM elements</h5>
+<h5>The Exit selection deals with circumstances where there are more DOM nodes than data items</h5>
 <pre>
     <code>
   &lt;ul id="guitars"&gt;
