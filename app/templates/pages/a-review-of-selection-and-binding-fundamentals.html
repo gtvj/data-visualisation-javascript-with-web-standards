@@ -19,6 +19,39 @@
 </blockquote>
 <h3>Examples</h3>
 <h4>Selection, binding and update</h4>
+<p>The pattern we've used so far for our examples is this:</p>
+<ul>
+    <li>Make an empty <strong>select</strong>ion</li>
+    <li><strong>Bind</strong> (aka join) it to some data</li>
+    <li><strong>Enter</strong> that selection (which essentially means do <em>"do everything that follows for every data
+        item which is not bound to a DOM node"</em> - <strong>this sounds stranger than it is</strong>)
+    </li>
+    <li><strong>Append</strong> / manipulate a DOM element for each item in the data</li>
+</ul>
+<details>
+    <summary>See an example of select > bind > enter > append</summary>
+    <p class="codepen" data-height="265" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+       data-slug-hash="NWqYXdO"
+       style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+       data-pen-title="Select &amp;gt; data &amp;gt; enter &amp;gt; append">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/NWqYXdO">
+  Select &gt; data &gt; enter &gt; append</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+    </p>
+</details>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<h4>Using data() to update a non-empty selection</h4>
+<p>This isn't something you're ever likely to do in D3, but it will help to illustrate what's going on 'under the
+    hood'.</p>
+<p>In this example we're:</p>
+<ul>
+    <li>Making a non-empty <strong>select</strong>ion</li>
+    <li><strong>Bind</strong>ing the selection to some data</li>
+    <li>
+        <mark>Not using <code>enter()</code></mark>
+    </li>
+    <li>Setting the text for our selection to correspond to the associated data item</li>
+</ul>
 <pre>
     <code>
   &lt;ul id="guitars"&gt;
@@ -36,13 +69,196 @@
     </code>
 </pre>
 <details>
-    <summary><strong>Quiz question:</strong> what do you expect to happen?</summary>
+    <summary><strong>Quiz question:</strong> given this code, what do you expect to happen?</summary>
     <p class="codepen" data-height="265" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
        data-slug-hash="XWbEdVz"
        style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
        data-pen-title="D3 selection, binding and update ">
   <span>See the Pen <a href="https://codepen.io/gtvj/pen/XWbEdVz">
   D3 selection, binding and update </a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+    </p>
+    <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+    <p>In this example, we have two nodes and two data items.</p>
+    <blockquote>
+        Updating nodes are the default selection—the result of the data operator. Thus, if you forget about the enter
+        and exit selections, you will automatically select only the elements for which there exists corresponding data.
+        <cite><a href="https://d3js.org">D3 documentation</a></cite>
+    </blockquote>
+</details>
+<h4>But what if there's more data items than DOM nodes?</h4>
+<p>Given this code (where there is an additional item in our array)</p>
+<pre>
+    <code>
+  &lt;ul id="guitars"&gt;
+      &lt;li&gt;Stagg&lt;/li&gt;
+      &lt;li&gt;Eastcoast&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;script&gt;
+      let g = d3
+        .select("#guitars")
+        .selectAll("li")
+        .data(["Fender", "Gibson"])
+        .text(d => `I am from data: ${d}`)
+  &lt;/script&gt;
+    </code>
+</pre>
+<details>
+    <summary><strong>Quiz question:</strong> what do you think will happen?</summary>
+    <p>There's no difference, because we ran out of DOM notes to attach our data to.</p>
+    <p>To fix this we need <code>enter()</code></p>
+    <p class="codepen" data-height="265" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+       data-slug-hash="MWwVrPY"
+       style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+       data-pen-title="MWwVrPY">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/MWwVrPY">
+  MWwVrPY</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+    </p>
+    <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+</details>
+<h5>The Enter selection deals with circumstances where there are more data points than DOM elements</h5>
+<blockquote>
+    When data is bound to a selection, each element in the data array is paired with the corresponding node in the
+    selection. If there are fewer nodes than data, the extra data elements form the enter selection, which you can
+    instantiate by appending to the enter selection.
+    <cite><a href="https://d3js.org">D3 documentation</a></cite>
+</blockquote>
+<p>To include the additional data point in our DOM selection, we need to use the Enter selection</p>
+<pre>
+    <code>
+  &lt;ul id="guitars"&gt;
+      &lt;li&gt;Stagg&lt;/li&gt;
+      &lt;li&gt;Eastcoast&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;script&gt;
+    // Update the DOM nodes that exist
+    let g = d3
+      .select("#guitars")
+      .selectAll("li")
+      .data(["Fender", "Gibson", "Martin"])
+      .text(d => `I am from data: ${d}`);
+
+    // Enter (aka create any DOM nodes which are necessary to represent our data)
+    g
+      .enter()
+      .append("li")
+      .text(d => `I was generated from the Enter selection: ${d}`)
+    &lt;/script&gt;
+    </code>
+</pre>
+<details>
+    <summary>See this code in action</summary>
+    <p class="codepen" data-height="265" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+       data-slug-hash="vYORpPj"
+       style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+       data-pen-title="The Enter selection">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/vYORpPj">
+  The Enter selection</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+    </p>
+    <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+</details>
+<h4>What if the total number of DOM nodes exceeds our data points?</h4>
+<p>Take this example</p>
+<pre>
+    <code>
+  &lt;ul id="guitars"&gt;
+      &lt;li&gt;Stagg&lt;/li&gt;
+      &lt;li&gt;Eastcoast&lt;/li&gt;
+      &lt;li&gt;Lowden&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;script&gt;
+      let g = d3
+        .select("#guitars")
+        .selectAll("li")
+        .data(["Fender", "Gibson"])
+        .text(d => `I am from data: ${d}`)
+  &lt;/script&gt;
+    </code>
+</pre>
+<details>
+    <summary><strong>Quiz question:</strong> what will the result of this be?</summary>
+    <p>The result is that the nodes which don't have a corresponding data point 'hang around'</p>
+    <p class="codepen" data-height="265" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+       data-slug-hash="dyomdym"
+       style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+       data-pen-title="More nodes than data points">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/dyomdym">
+  More nodes than data points</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+    </p>
+    <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+    <p>This might seem an academic exercise, but this is a situation that can arise whenever you're updating the data
+        for your visualisation.</p>
+    <p>To address this we use the <code>exit()</code> selection.</p>
+</details>
+<h5>The Exit selection deals with circumstances where there are more DOM nodes than DOM elements</h5>
+<pre>
+    <code>
+  &lt;ul id="guitars"&gt;
+      &lt;li&gt;Stagg&lt;/li&gt;
+      &lt;li&gt;Eastcoast&lt;/li&gt;
+      &lt;li&gt;Lowden&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;script&gt;
+      let g = d3
+        .select("#guitars")
+        .selectAll("li")
+        .data(["Fender", "Gibson"])
+        .text(d => `I am from data: ${d}`)
+
+      g.exit().remove
+  &lt;/script&gt;
+    </code>
+</pre>
+<details>
+    <summary>See this code in action</summary>
+    <p class="codepen" data-height="265" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+       data-slug-hash="XWbEZga"
+       style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+       data-pen-title="The exit selection">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/XWbEZga">
+  The exit selection</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+    </p>
+    <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+</details>
+<h3>Bringing this all together: the update, enter and exit pattern</h3>
+<p>This is a common pattern in D3</p>
+<blockquote>
+    A common pattern is to break the initial selection into three parts: the updating nodes to modify, the entering
+    nodes to add, and the exiting nodes to remove.
+    <cite><a href="https://d3js.org">D3 documentation</a></cite>
+</blockquote>
+<pre>
+    <code>
+    // Update…
+    var p = d3.select("body")
+      .selectAll("p")
+      .data([4, 8, 15, 16, 23, 42])
+        .text(function(d) { return d; });
+
+    // Enter…
+    p.enter().append("p")
+        .text(function(d) { return d; });
+
+    // Exit…
+    p.exit().remove();
+    </code>
+</pre>
+<details>
+    <summary>See the update, enter and exit pattern in action</summary>
+    <p class="codepen" data-height="265" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+       data-slug-hash="MWwVQOp"
+       style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+       data-pen-title="A realistic update, enter and exit example">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/MWwVQOp">
+  A realistic update, enter and exit example</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
     </p>
     <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
