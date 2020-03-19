@@ -1,7 +1,14 @@
-<ul class="vertical menu">
-    {% for page in pages %}
-    <li {{ " class=is-active" if request.path == ('/pages' + page.route) }}>
-    <a href="{{'/pages' + page.route}}"><strong>Week {{ page.week }}</strong>: {{ page.title }}</a>
-    </li>
-    {% endfor %}
-</ul>
+<nav>
+    <ul class="vertical menu">
+        <li {{
+        " class=is-active" if request.path == '/' }}>
+        <a href="/">Home</a>
+        </li>
+        {% for page in pages %}
+        <li {{
+        " class=is-active" if request.path == ('/pages' + page.route) }}>
+        <a href="{{'/pages' + page.route}}"><strong>Week {{ page.week }}</strong>: {{ page.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
