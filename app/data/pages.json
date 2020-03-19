@@ -2,186 +2,107 @@
   {
     "title": "SVG Basics - a refresher",
     "route": "/svg-basics-a-refresher",
-    "technologies": [
-      "svg"
-    ],
     "week": 1
   },
   {
     "title": "SVG basics - origin",
     "route": "/svg-basics-using-origin",
-    "technologies": [
-      "svg"
-    ],
     "week": 1
   },
   {
     "title": "SVG basics - using defaults",
     "route": "/svg-basics-using-defaults",
-    "technologies": [
-      "svg"
-    ],
     "week": 1
   },
   {
     "title": "Drawing with SVG and D3",
     "route": "/drawing-with-svg-and-d3",
-    "technologies": [
-      "svg",
-      "d3"
-    ],
     "week": 1
   },
   {
     "title": "Drawing with SVG and D3: still JavaScript",
     "route": "/drawing-with-svg-and-d3-still-javascript",
-    "technologies": [
-      "svg",
-      "d3"
-    ],
     "week": 1
   },
   {
     "title": "Week 1 challenge - a solution",
     "route": "/week-one-challenge-a-solution",
-    "technologies": [
-      "svg",
-      "d3"
-    ],
     "week": 2
   },
   {
     "title": "Loading data with D3",
     "route": "/loading-data-with-d3",
-    "technologies": [
-      "svg",
-      "d3"
-    ],
     "week": 2
 
   },
   {
     "title": "Using someone else's visuaisation",
     "route": "/using-someone-elses-visualisation",
-    "technologies": [
-      "svg",
-      "d3"
-    ],
     "week": 2
   },
   {
     "title": "Using rollup to shape data",
     "route": "/using-rollup-to-shape-data",
-    "technologies": [
-      "svg",
-      "d3"
-    ],
     "week": 2
   },
   {
     "title": "Our first React component",
     "route": "/our-first-react-component",
-    "technologies": [
-      "svg",
-      "d3",
-      "react"
-    ],
     "week": 3
   },
   {
     "title": "Our first React component with D3",
     "route": "/our-first-react-component-with-d3",
-    "technologies": [
-      "svg",
-      "d3",
-      "react"
-    ],
     "week": 3
   },
   {
     "title": "Updating visualisation data",
     "route": "/updating-visualisation-data",
-    "technologies": [
-      "svg",
-      "d3"
-    ],
     "week": 3
   },
   {
     "title": "Linking data updates to a form",
     "route": "/linking-data-updates-to-form",
-    "technologies": [
-      "svg",
-      "d3"
-    ],
     "week": 3
   },
   {
     "title": "Linking data updates to jQuery UI range",
     "route": "/linking-data-updates-to-jquery-ui-range",
-    "technologies": [
-      "svg",
-      "d3",
-      "jQuery UI"
-    ],
     "week": 3
   },
   {
     "title": "Linking async data updates to jQuery UI range",
     "route": "/linking-async-data-updates-to-jquery-ui-range",
-    "technologies": [
-      "svg",
-      "d3",
-      "jQuery UI"
-    ],
     "week": 3
   },
   {
     "title": "Building a real chart with D3",
     "route": "/building-a-real-chart-with-d3",
-    "technologies": [
-      "d3"
-    ],
     "week": 4
   },
   {
     "title": "D3 scales",
     "route": "/d3-scales",
-    "technologies": [
-      "d3"
-    ],
     "week": 5
   },
   {
     "title": "D3 scales and time",
     "route": "/d3-scales-and-time",
-    "technologies": [
-      "d3"
-    ],
     "week": 6
   },
   {
     "title": "Using D3 scaleTime() to draw a Gantt chart",
     "route": "/d3-scales-a-gantt-chart",
-    "technologies": [
-      "d3"
-    ],
     "week": 6
   },
   {
     "title": "Introducing Axes",
     "route": "/introducing-axes",
-    "technologies": [
-      "d3"
-    ],
     "week": 7
   },
   {
     "title": "A review of selection and binding fundamentals",
     "route": "/a-review-of-selection-and-binding-fundamentals",
-    "technologies": [
-      "d3"
-    ],
     "week": 7
   }
 
