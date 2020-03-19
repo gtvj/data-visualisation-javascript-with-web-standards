@@ -2,6 +2,8 @@
 
 This repository is a companion to the [introduction for developers](https://docs.google.com/presentation/d/1H8UbPesAFGUxk4IuWzBh3QmIHK1oG55WdYIeGjZ7ezU/edit?usp=sharing) along with follow-along examples.
 
+To see the examples contained in this Flask app visit [https://pure-hamlet-59256.herokuapp.com/](https://pure-hamlet-59256.herokuapp.com/)
+
 ## Development machine configuration
 
 Run this command: `python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && flask run `
