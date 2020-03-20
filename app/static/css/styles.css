@@ -77,3 +77,22 @@ details div {
 details p {
   margin-top: 1em;
 }
+
+#update-enter-exit {
+  font-family: 'Montserrat', sans-serif;
+  fill: white;
+}
+
+#update-enter-exit svg {
+  outline: none;
+}
+
+#update-enter-exit g {
+  transition: all .35s ease-in-out;
+}
+
+#update-enter-exit g:hover {
+  fill: rgb(2,2,2,0.8);
+  transform: scale(1.05) translate(-2.5%, -2.5%);
+}
+

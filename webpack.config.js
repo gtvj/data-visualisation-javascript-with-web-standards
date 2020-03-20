@@ -2,7 +2,8 @@ module.exports = {
     watch: true,
     entry: {
         our_first_react_component: "./app/static/scripts/src/our_first_react_component.js",
-        our_first_react_component_with_d3: "./app/static/scripts/src/our_first_react_component_with_d3.js"
+        our_first_react_component_with_d3: "./app/static/scripts/src/our_first_react_component_with_d3.js",
+        update_enter_exit: "./app/static/scripts/src/update_enter_exit.js"
     },
     output: {
         path: __dirname + "/app/static/scripts/dist",

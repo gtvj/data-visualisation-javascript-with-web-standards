@@ -104,6 +104,11 @@
     "title": "A review of selection and binding fundamentals",
     "route": "/a-review-of-selection-and-binding-fundamentals",
     "week": 7
+  },
+  {
+    "title": "General update pattern",
+    "route": "/d3-general-update-pattern",
+    "week": 8
   }
 
 ]

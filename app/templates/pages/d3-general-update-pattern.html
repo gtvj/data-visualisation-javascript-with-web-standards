@@ -1,0 +1,57 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+
+<h1>D3 General update pattern</h1>
+<p>Last week we looked at selection and binding fundamentals, including introducing the Update, Enter, Exit pattern.
+    It's probably worth a quick review of what we looked at before we continue here.</p>
+<details>
+    <summary>Quick review of the update, enter and exit pattern in action</summary>
+    <p class="codepen" data-height="765" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+       data-slug-hash="MWwVQOp"
+       style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+       data-pen-title="A realistic update, enter and exit example">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/MWwVQOp">
+  A realistic update, enter and exit example</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+    </p>
+    <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+</details>
+<p>As this example shows, the Update, Enter, Exit pattern allows us to</p>
+<ul>
+    <li><strong>Update</strong> any existing DOM nodes in our selection</li>
+    <li>Create any new nodes to represent additional data items (using <strong>Enter)</strong></li>
+    <li>Remove any nodes that no longer have a corresponding data item (using <strong>Exit)</strong></li>
+</ul>
+<div id="update-enter-exit"></div>
+<pre>
+    <code>
+  // Update all existing nodes
+  var selection = d3
+    .select("#things")
+    .selectAll("li")
+    .data(dataset)
+    .text(function(d) {
+      return `${d} from data update`;
+    });
+
+  // Enter to create any new nodes
+  selection
+    .enter()
+    .append("li")
+    .text(function(d) {
+      return `${d} from data enter`;
+    });
+
+  // Exit to remove our old nodes
+  selection.exit().remove();
+    </code>
+</pre>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="/static/scripts/dist/update_enter_exit.js"></script>
+{% endblock %}
+
