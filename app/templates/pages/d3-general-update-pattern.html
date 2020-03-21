@@ -43,9 +43,12 @@
         set_visualisation_data(current_data);
     }
 
+    // Setting up our click handlers
+    d3.selectAll("button").on("click", click);
+
     function set_visualisation_data(data) {
         // Update existing nodes where there is a corresponding data point
-        var selection = d3
+        const selection = d3
             .select("#foods")
             .selectAll("li")
             .data(data)
@@ -55,16 +58,11 @@
         selection
             .enter()
             .append("li")
-            .text(function (d) {
-                return `${d} from enter`;
-            });
+            .text(d => `${d} from enter`);
 
         // Exit to handle nodes with no associated data (i.e. remove node)
         selection.exit().remove();
     }
-
-    // Setting up our click handlers
-    d3.selectAll("button").on("click", click);
     </code>
 </pre>
 <details>
