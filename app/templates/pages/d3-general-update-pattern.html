@@ -4,8 +4,11 @@
 
 <h1>D3 General update pattern</h1>
 <p>This week we're going to look at the D3 General update pattern. But, before we do, it's important to understand that
-    - until now - we've been using the D3 data join.</p>
-<h2>The data join</h2>
+    - until now - we've been using the D3 data join and that <strong>the General update pattern is nothing more than a
+        <em>suggestion</em> about how you might choose to implement the update, enter, exit pattern in code.</strong>
+</p>
+<p>It is not a different or new thing.</p>
+<h2>A quick recap on the data join and update, enter exit pattern</h2>
 <blockquote>
     Thinking with joins means
     <mark>declaring a relationship between a selection (such as "circle") and data</mark>
@@ -19,16 +22,34 @@
     This is <q>Thinking in joins</q></p>
 <p>As this example shows, the Update, Enter, Exit pattern allows us to</p>
 <ul>
-    <li><strong>Update</strong> any existing DOM nodes in our selection</li>
-    <li>Create any new nodes to represent additional data items (using <strong>Enter)</strong></li>
-    <li>Remove any nodes that no longer have a corresponding data item (using <strong>Exit)</strong></li>
+    <li><strong>Update</strong> any existing elements in our selection</li>
+    <li>Create any new elements that are needed to represent additional data items (using <strong>Enter)</strong></li>
+    <li>Remove any elements that no longer have a corresponding data item (using <strong>Exit)</strong></li>
 </ul>
-<div id="update-enter-exit"></div>
-<h3>Clariying the data join with events</h3>
-<p>On reflection, I wonder if the last example from last week - which used <code>setInterval()</code> and
-    programmatically generated data sets might have introduced a bit of complexity that might have made things a little
-    more difficult than they needed to be.</p>
-<p>This example introduces events to, hopefully, clarify things a bit.</p>
+<figure id="update-enter-exit-figure">
+    <div id="update-enter-exit"></div>
+    <figcaption>
+        <blockquote>
+            Data points joined to existing elements produce the update (inner) selection. Leftover unbound data produce
+            the enter selection (left), which represents missing elements. Likewise, any remaining unbound elements
+            produce the exit selection (right), which represents elements to be removed.
+            <cite><a href="https://bost.ocks.org/mike/join/">Thiking with joins, by Mike Bostock</a></cite>
+        </blockquote>
+    </figcaption>
+</figure>
+<h2>The General Update Pattern</h2>
+<p>In essence, the General Update Pattern suggests you <strong>create a single function</strong> which implements the
+    update, enter, exit for your visualisation. This function:</p>
+<ul>
+    <li>Takes the new data as a single argument</li>
+    <li>Runs the comparison between new data and existing visual elements</li>
+    <li>Does the update, enter and exit</li>
+    <li>Builds the DOM</li>
+</ul>
+<p>In this way, the General Update Pattern simplifies the process of updating the data for a visualiation</p>
+<h3>An example</h3>
+<p>In this example the <code>set_visualisation_data()</code> method implements the General Update Pattern. We're going
+    to use events to demonstrate changing data.</p>
 <pre>
     <code>
     // Here's our data
@@ -77,6 +98,66 @@
     </p>
     <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 </details>
+<h3>A new shorthand you might use, or encounter</h3>
+<p>Since version 5.8 D3 selections have a new <code>join()</code> method that allows you to explicitly receive and work
+    with the enter, update, and exit selections. </p>
+<p>You can pass the <code>join()</code> method three functions as arguments, the first will be passed the enter
+    selection, the second the update selection, and the third the exit selection.</p>
+<p>The code below is the same example as above, but uses the new <code>join()</code> method</p>
+<pre>
+    <code>
+    // Here's our data
+    const foods = {
+      grains: ["wheat", "rice", "oats", "cornmeal", "barley"],
+      pulses: ["chickpeas", "garden peas", "runner beans"]
+    };
+
+    function click() {
+      // Use the data-name attribute to identify which object key to use
+      let current_data = foods[this.dataset.name];
+      set_visualisation_data(current_data);
+    }
+
+    // Setting up our click handlers
+    d3.selectAll("button").on("click", click);
+
+    function set_visualisation_data(data) {
+      // Update existing nodes where there is a corresponding data point
+      const selection = d3
+        .select("#foods")
+        .selectAll("li")
+        .data(data)
+        .join(
+          (enter) => enter.append("li").text((d) => `${d} from enter`),
+          (update) => update.text((d) => `${d} from update`),
+          (exit) => exit.remove()
+        );
+    }
+    </code>
+</pre>
+<details>
+    <summary>See this code in action</summary>
+    <p class="codepen" data-height="765" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+       data-slug-hash="bGdOYQm"
+       style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+       data-pen-title="General update pattern - using join() shorthand">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/bGdOYQm">
+  General update pattern - using join() shorthand</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+    </p>
+    <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+</details>
+<div class="callout alert">
+    <h4>Great for experts, bad for learners?</h4>
+    <p>When I first saw the <code>join()</code> method, I thought it was a classic example of something that might be
+        great for people who have mastered D3 but which creates a barrier for those trying to learn it.</p>
+    <p>That's true in some respects but it does have one clear advantage: <strong>it makes the update selection
+        explicit</strong>, rather than being being automagically available after you call the <code>data()</code>.</p>
+    <p>For this reason, on reflection, I think it might actually be better.</p>
+</div>
+
+<p><strong>Note:</strong> there are other ways of using <code>join()</code> which, if you'd like to, you can read about
+    <a href="https://observablehq.com/@d3/selection-join">here</a>.</p>
 {% endblock %}
 
 {% block scripts %}

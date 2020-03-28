@@ -96,3 +96,6 @@ details p {
   transform: scale(1.05) translate(-2.5%, -2.5%);
 }
 
+#update-enter-exit-figure:hover blockquote {
+  color: black!important;
+}
