@@ -109,6 +109,11 @@
     "title": "General update pattern",
     "route": "/d3-general-update-pattern",
     "week": 8
+  },
+  {
+    "title": "The key function",
+    "route": "/the-key-function",
+    "week": 8
   }
 
 ]

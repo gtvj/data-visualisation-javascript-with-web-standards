@@ -1,0 +1,138 @@
+{% extends "page_layout.html" %}
+
+{% block content %}
+    <h1>The key function</h1>
+    <p>By default, D3 sees only the index of data items and elements, not their content. This
+        means that the
+        first data item will be linked to the first element, the second data item to the second element, and so on. And
+        this is refreshed each time the data is updated</p>
+    <p>This can make
+        things a little tricky when you have a situation where we want to convey a change in state.</p>
+    <h2>Let's illustrate this</h2>
+    <p>Our data here represents the sequence of activities for our user. On Monday, they brush their teeth first, then
+        eat breakfast etc.</p>
+    <p>If we use our existing approach, everything works fine - but what if we're asked to show that some of these items
+        are the same
+        but took place in a different order (perhaps using an animation or other transition)? The short answer: we
+        can't, because all D3 is aware of
+        is that the first item in the array corresponds to the first element and so on.</p>
+    <pre>
+        <code>
+    let days = {
+      monday: ["Brush teeth", "Eat breakfast", "Get dressed"],
+      tuesday: [
+            "Brush teeth",
+            "Eat breakfast",
+            "Wash car",
+            "Get dressed",
+            "Get arrested"
+            ]};
+
+    function click() {
+      // Use the data-name attribute to identify which object key to use
+      let current_data = days[this.dataset.name];
+      set_visualisation_data(current_data);
+    }
+
+    // Setting up our click handlers
+    d3.selectAll("button").on("click", click);
+
+    function set_visualisation_data(data) {
+      // Update existing nodes where there is a corresponding data point
+      const selection = d3
+        .select("#container")
+        .selectAll("li")
+        .data(data)
+        .join(
+          (enter) => enter.append("li").text((d) => d),
+          (update) => update.text((d) => d),
+          (exit) => exit.remove()
+        );
+    }
+
+        </code>
+    </pre>
+    <details>
+        <summary>See this code in action</summary>
+        <p class="codepen" data-height="765" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+           data-slug-hash="XWboqBg"
+           style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+           data-pen-title="Without key function">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/XWboqBg">
+  Without key function</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+        </p>
+        <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+    </details>
+    <div class="callout primary">
+        <h3>Things to note when not using a Key function</h3>
+        <p>The important thing to notice here is that, when moving from Monday to Tuesday:</p>
+        <ul>
+            <li>'Wash car', despite being new is marked as 'updated'</li>
+            <li>'Get dressed', despite being updated is marked as 'new'</li>
+        </ul>
+        <p>The reason for this is that the join is by index and - from that perspective - it's true: the second item was
+            updated and the fourth is new.</p>
+    </div>
+    <h2>How the key function addresses this</h2>
+    <p>The key function allows you to replace the default <em>join by index</em> mechanism with a <em>join by
+        identifier</em> mechanism. You do this by adding a second argument to the <code>data()</code> method which
+        returns the identifier you would like to form the basis of the matching data to elements.</p>
+    <p>Every time we update the data, the key method will be evaluated for:</p>
+    <ul>
+        <li>Each data row in the dataset</li>
+        <li>Each element</li>
+    </ul>
+    <p>It will then slot the elements into the correct place.</p>
+    <pre>
+        <code>
+  let days = {
+      monday: ["Eat breakfast", "Brush teeth", "Get dressed"],
+      tuesday: [
+        "Eat breakfast",
+        "Brush teeth",
+        "Wash car",
+        "Get dressed",
+        "Get arrested"
+      ]
+    };
+
+    function click() {
+      // Use the data-name attribute to identify which object key to use
+      let current_data = days[this.dataset.name];
+      set_visualisation_data(current_data);
+    }
+
+    // Setting up our click handlers
+    d3.selectAll("button").on("click", click);
+
+    function set_visualisation_data(data) {
+      // Update existing nodes where there is a corresponding data point
+      const selection = d3
+        .select("#container")
+        .selectAll("li")
+        .data(data, (d) => d)
+        .join(
+          (enter) => enter.append("li").text((d) => `${d} - new`),
+          (update) => update.text((d) => `${d} - updated`),
+          (exit) => exit.remove()
+        );
+    }
+        </code>
+    </pre>
+    <details>
+        <summary>See this code in action</summary>
+        <p class="codepen" data-height="765" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+           data-slug-hash="rNVovEG"
+           style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+           data-pen-title="With key function">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/rNVovEG">
+  With key function</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+        </p>
+        <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+    </details>
+    <div class="callout primary">
+        <p>Notice how D3 has identified that 'Get dressed' was an existing item, and 'Wash car' (despite being within the first three elements) is new.</p>
+    </div>
+{% endblock %}
