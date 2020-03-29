@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1>Changes and transitions</h1>
-    <p>You may have noticed that D3 is not unlike other JavaScript frameworks (React, Angular, Vue etc.) which also bind
+    <p>If you've worked with a few other JavaScript frameworks (React, Angular, Vue etc.) you'll know that D3 is not unique in providing the ability to bind
         data to DOM elements
         so that, as data changes, the DOM is updated in a way that is transparent to the developer.</p>
     <h2>An example of data binding in Vue.js</h2>
@@ -67,8 +67,44 @@
         visualisation. These include:</p>
     <ul>
         <li>The ease with which you can persist an element across data changes (as demonstrated when we looked at the
-            <strong>key function</strong></li>
+            <strong>key function</strong>)</li>
         <li>D3 has excellent support for using transitions to demonstrate these changes</li>
     </ul>
-    <h2>Why does this matter? A look at visualisation design.</h2>
+    <h2>Object constancy</h2>
+    <p>There are a few principles of data visualisation that benefit from the ability to <strong>animate</strong> the
+        transition between states, which can help users to understand the relationship between states. This priniciple
+        is known as <strong>object constancy</strong></p>
+    <blockquote>
+        <p>Animated transitions are pretty, but they also serve a purpose: they make it easier to follow the data. This
+            is known as object constancy: a graphical element that represents a particular data point (such as Ohio) can
+            be tracked visually through the transition. <strong>This lessens the cognitive burden by using preattentive
+                processing of motion rather than sequential scanning of labels.</strong></p>
+        <cite><a href="https://bost.ocks.org/mike/constancy/">Mike Bostock, Object Constancy</a></cite>
+    </blockquote>
+    <p>But, as we know, <strong>you need to be very careful when considering animations on the web because they can
+        cause problems for users</strong>. Here are a few things to
+        bear in mind, straight from WCAG 2.1</p>
+    <h3>WCAG 2.1 is clear about what constitutes motion animation</h3>
+    <blockquote>
+        <p>...addition of steps between conditions to create the illusion of movement or to give a sense of a smooth
+            transition</p>
+        <p>
+            For example, an element which moves into place or changes size while appearing is considered to be animated.
+            An element which appears instantly without transitioning is not using animation. Motion animation does not
+            include changes of color, blurring or opacity.</p>
+        <cite><a href="https://www.w3.org/TR/WCAG21/#glossary">WCAG 2.1 Glossary</a></cite>
+    </blockquote>
+    <p>...and WCAG has success criterion related to motion animation that is triggered by interaction.</p>
+    <blockquote>
+        <p>Motion animation triggered by interaction can be disabled, unless the animation is essential to the
+            functionality or the information being conveyed.</p>
+        <cite><a href="https://www.w3.org/TR/WCAG21/#animation-from-interactions">WCAG 2.1 Animation from
+            Interactions (AAA)</a></cite>
+    </blockquote>
+    <p>The <q>animation is essential to the functionality or information being conveyed</q> is curious but - in all
+        honesty - I'd anticipate the overwhelming majority of visualisations can convey the information without reliance on animation.</p>
+
+    <div class="callout warning">
+    <p>While we've only talked about animations here, we obviously need to think about all aspects of accessibility in visualisations.</p>
+    </div>
 {% endblock %}
