@@ -1,0 +1,74 @@
+{% extends "page_layout.html" %}
+
+{% block scripts %}
+
+{% endblock %}
+
+{% block content %}
+    <h1>Changes and transitions</h1>
+    <p>You may have noticed that D3 is not unlike other JavaScript frameworks (React, Angular, Vue etc.) which also bind
+        data to DOM elements
+        so that, as data changes, the DOM is updated in a way that is transparent to the developer.</p>
+    <h2>An example of data binding in Vue.js</h2>
+    <p>The code snippet below demonstrates that much of what we've done so far could be achieved in Vue.js, for
+        example.</p>
+    <pre>
+    <code>
+    &lt;div id="app"&gt;
+      &lt;ol&gt;
+        &lt;li v-for="task in tasks"&gt;
+          &lbrace;&lbrace; task &rbrace;&rbrace;
+        &lt;/li&gt;
+      &lt;/ol&gt;
+      &lt;button v-on:click="updateData('monday')"&gt;Monday&lt;/button&gt;
+      &lt;button v-on:click="updateData('tuesday')"&gt;Tuesday&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+    let days = {
+      monday: ["Brush teeth", "Eat breakfast", "Get dressed"],
+      tuesday: [
+        "Brush teeth",
+        "Eat breakfast",
+        "Wash car",
+        "Get dressed",
+        "Get arrested"
+      ]
+    };
+
+    var app = new Vue({
+      el: "#app",
+      data: {
+        tasks: days.monday
+      },
+      methods: {
+        updateData: function (day) {
+          this.tasks = days[day];
+        }
+      }
+    });
+    &lt;/script&gt;
+    </code>
+    </pre>
+    <details>
+        <summary>See this code in action</summary>
+        <p class="codepen" data-height="565" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+           data-slug-hash="LYVMKGE"
+           style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+           data-pen-title="D3 example done in Vue.js">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/LYVMKGE">
+  D3 example done in Vue.js</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+        </p>
+        <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+    </details>
+    <h2>But D3 is better for visualisation</h2>
+    <p>The difference is that D3 has capabilities that make it much better than these alternatives when it comes to data
+        visualisation. These include:</p>
+    <ul>
+        <li>The ease with which you can persist an element across data changes (as demonstrated when we looked at the
+            <strong>key function</strong></li>
+        <li>D3 has excellent support for using transitions to demonstrate these changes</li>
+    </ul>
+    <h2>Why does this matter? A look at visualisation design.</h2>
+{% endblock %}

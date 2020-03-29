@@ -114,6 +114,10 @@
     "title": "The key function",
     "route": "/the-key-function",
     "week": 8
+  },
+  {
+    "title": "Changes and transitions (Part 1)",
+    "route": "/changes-and-transitions-part-1",
+    "week": 9
   }
-
 ]
