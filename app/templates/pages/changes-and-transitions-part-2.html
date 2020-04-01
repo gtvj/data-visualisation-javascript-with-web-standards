@@ -1,0 +1,92 @@
+{% extends "page_layout.html" %}
+
+{% block scripts %}
+
+{% endblock %}
+
+{% block content %}
+    <h1>Changes and transitions (Part 2)</h1>
+    <p>This entire section is going to look at one thing: the <a href="https://github.com/d3/d3-transition">d3
+        transition</a> module. It should, hopefully, be a bit more fun and engaging than the material of recent weeks.
+    </p>
+    <h2>Basics of transition()</h2>
+    <p>The snippet below demonstrates a few things you can do with transitions, including:</p>
+    <ul>
+        <li>Control the animiation duration (the default is 250ms)</li>
+        <li>Animate multiple attributes simultaneously</li>
+        <li>Delay a transition</li>
+    </ul>
+    <pre>
+    <code class="javascript">
+    let svg = d3.select("#visualisation");
+
+    // Creating and initializing our elements
+    let group = svg.append("g").attr("transform", "translate(100,100)");
+    let line = group.append("line").attr("x2", 300).style("stroke", "black");
+    let circle = group.append("circle").attr("cx", 300).attr("r", 3);
+    let text = group.append("text").attr("y", -10).text("This is a line");
+
+    // Transitioning our elements
+    line.transition().duration(4000).attr("x2", 200).attr("stroke-width", 3);
+    circle.transition().duration(4000).attr("cx", 200).attr("r", 5);
+    text.transition().duration(4000).attr("y", -15);
+    </code>
+    </pre>
+    <details>
+        <summary>See this code in action</summary>
+        <p class="codepen" data-height="465" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+           data-slug-hash="yLNryMw"
+           style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+           data-pen-title="yLNryMw">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/yLNryMw">
+  yLNryMw</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+        </p>
+        <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+    </details>
+    <h3>d3-ease</h3>
+    <p>In addition to d3-transition, there is a <a href="https://github.com/d3/d3-ease">d3-ease module</a> to give
+        animations more plausible motion. This provides loads of methods and there is also an
+        <a href="https://observablehq.com/@d3/easing">easing explorer</a> which shows the corresponding graphs</p>
+    <p>The code below shows how you'd apply an <code>ease()</code>, in this case it's <code>d3.easeBounce</code></p>
+    <pre>
+    <code class="javascript">
+    let svg = d3.select("#visualisation");
+
+    // Creating and initializing our elements
+    svg
+      .selectAll("circle")
+      .data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])
+      .join("circle")
+      .attr("cy", 100)
+      .attr("cx", (d, i) => i * 30 + 15)
+      .attr("r", 15)
+      .attr(
+        "fill",
+        () =>
+          `rgba(${Math.random() * 255},${Math.random() * 255},${
+            Math.random() * 255
+          }, 1)`
+      )
+      .transition()
+      .duration(2000)
+      .delay(() => Math.random() * 250)
+      .ease(d3.easeBounce)
+      .attr("cy", 485);
+    </code>
+    </pre>
+    <details>
+        <summary>
+            See this code in action
+        </summary>
+        <p class="codepen" data-height="665" data-theme-id="dark" data-default-tab="js,result" data-user="gtvj"
+           data-slug-hash="ExjJjbw"
+           style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+           data-pen-title="Some basics of d3-transition()">
+  <span>See the Pen <a href="https://codepen.io/gtvj/pen/ExjJjbw">
+  Some basics of d3-transition()</a> by Gwyn Jones (<a href="https://codepen.io/gtvj">@gtvj</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+        </p>
+        <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+    </details>
+{% endblock %}

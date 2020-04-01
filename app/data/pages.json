@@ -119,5 +119,10 @@
     "title": "Changes and transitions (Part 1)",
     "route": "/changes-and-transitions-part-1",
     "week": 9
+  },
+  {
+    "title": "Changes and transitions (Part 2)",
+    "route": "/changes-and-transitions-part-2",
+    "week": 9
   }
 ]
