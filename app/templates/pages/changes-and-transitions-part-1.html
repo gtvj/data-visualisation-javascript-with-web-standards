@@ -70,8 +70,7 @@
         <li>The ease with which you can persist an element across data changes (as demonstrated when we looked at the
             <strong>key function</strong>)
         </li>
-        <li>D3 has excellent support for demonstrating these changes through its <a
-                href="https://github.com/d3/d3-transition">transition module</a></li>
+        <li>D3 provides a <a href="https://github.com/d3/d3-transition">transition module</a> that gives us tools to make changes visible via, you guessed it, transitions</li>
     </ul>
     <h3>The transition module</h3>
     <p>We'll be looking at this in some depth but lets start with how it's described in the documentation.</p>
@@ -96,7 +95,7 @@
       .attr("fill", "orange");
 
     circle
-      .transition()
+      .transition(
       .attr("cy", 430);
     </code>
     </pre>
